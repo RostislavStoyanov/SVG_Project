@@ -5,7 +5,11 @@
 
 int main()
 {
-	Line line;	
+	Figure fig;
+	fig.getInfo("red", "black", 2);
+	fig.print();
+	Line line;
+	line.getInfo("red", "blue", 2, 2, 2, 2, 2);
 	std::cout << line;
 	return 0;
 }

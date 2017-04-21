@@ -1,5 +1,20 @@
 #include "Figure.h"
 
+void Figure::setValue(char *& p, const char * value)
+{
+	try {
+		size_t valueSize = strlen(value) + 1;
+		char* newValue = new char[valueSize];
+		delete[] p;
+		p = newValue;
+		strcpy_s(p, valueSize, value);
+	}
+	catch (std::bad_alloc&)
+	{
+		std::cerr << "Not enough memory!\n";
+	}
+}
+
 Figure::Figure()
 {
 	fill = NULL;
@@ -13,18 +28,18 @@ Figure::~Figure()
 	delete[] stroke;
 }
 
-void Figure::getInfo(const char *fill, const char *stroke, const unsigned int strokeWidth)
+void Figure::getInfo(const char *nFill, const char *nStroke, const unsigned int nStrokeWidth)
 {
-	this->strokeWidth = strokeWidth;
-	int fillLen, strokeLen;
-	fillLen = std::strlen(fill) + 1;
-	strokeLen = std::strlen(stroke) + 1;
-	char* newFill = new char[fillLen];
-	strcpy_s(newFill,fillLen, fill);
-	delete[] this->fill;
-	this->fill = newFill;
-	char* newStroke = new char[strokeLen];
-	strcpy_s(newStroke,strokeLen, stroke);
-	delete[] this->stroke;
-	this->stroke = newStroke;
+	this->strokeWidth = nStrokeWidth;
+	setValue(stroke, nStroke);
+	setValue(fill,nFill);
+}
+
+void Figure::print()
+{
+	if (fill&&stroke) {
+		std::cout << this->fill << std::endl;
+		std::cout << this->stroke << std::endl;
+	}
+	std::cout << this->strokeWidth << std::endl;
 }

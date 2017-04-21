@@ -1,7 +1,5 @@
 #include "Line.h"
 
-
-
 Line::Line()
 {
 	Figure();
@@ -11,6 +9,7 @@ Line::Line()
 
 void Line::getInfo(const char *fill, const char *stroke, const unsigned int strokeWidth, const double x1, const double y1, const double x2, const double y2)
 {
+	Figure::getInfo(fill, stroke, strokeWidth);
 	this->x1 = x1;
 	this->x2 = x2;
 	this->y1 = y1;
@@ -19,7 +18,10 @@ void Line::getInfo(const char *fill, const char *stroke, const unsigned int stro
 
 std::ostream & operator<<(std::ostream& out, const Line &line)
 {
-	out << line.fill << "," << line.stroke << "," << line.strokeWidth << "," <<
+	if (line.fill&&line.stroke) {
+		out << line.fill << "," << line.stroke << ",";
+	}
+	out << line.strokeWidth << "," <<
 		line.x1 << "," << line.y1 << "," << line.x2 << "," << line.y2 << std::endl;
 	return out;
 }
