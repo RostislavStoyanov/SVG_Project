@@ -15,3 +15,8 @@ Figure::~Figure()
 	delete[] fill;
 	delete[] stroke;
 }
+
+void Figure::getInfo(const char *, const char *, const unsigned int)
+{
+
+}

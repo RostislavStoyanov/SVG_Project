@@ -10,5 +10,7 @@ protected:
 public:
 	Figure();
 	~Figure();
+
+	virtual void getInfo(const char*,const char*,const unsigned int);
 };
 
