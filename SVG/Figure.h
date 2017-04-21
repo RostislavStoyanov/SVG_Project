@@ -12,7 +12,7 @@ public:
 	Figure();
 	~Figure();
 
-	virtual void getInfo(const char*,const char*,const unsigned int);
+	void getInfo(const char*,const char*,const unsigned int);
 	void print();
 };
 
