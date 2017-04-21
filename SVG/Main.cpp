@@ -5,6 +5,7 @@
 
 int main()
 {
-
+	Line line;	
+	std::cout << line;
 	return 0;
 }

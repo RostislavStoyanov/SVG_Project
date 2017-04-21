@@ -1,6 +1,6 @@
 #pragma once
-#include<stddef.h>
 #include<iostream>
+#include<cstring>
 class Figure
 {
 protected:
