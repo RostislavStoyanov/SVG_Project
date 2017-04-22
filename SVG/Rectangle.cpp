@@ -19,4 +19,14 @@ void Rectangle::getInfo(const char *fill, const char *stroke, const unsigned int
 	this->height = height;
 }
 
+void Rectangle::print()
+{
+	if (fill&&stroke)
+	{
+		std::cout << fill << "," << stroke << ",";
+	}
+	std::cout << strokeWidth << "," <<
+		x << "," << y << "," << width <<","<<height<<std::endl;
+}
+
 

@@ -16,6 +16,16 @@ void Line::getInfo(const char *fill, const char *stroke, const unsigned int stro
 	this->y2 = y2;
 }
 
+void Line::print()
+{
+	if (fill&&stroke)
+	{
+		std::cout << fill << "," << stroke << ",";
+	}
+	std::cout << strokeWidth << "," <<
+		x1 << "," << y1 << "," << x2 <<","<<y2 <<std::endl;
+}
+
 std::ostream & operator<<(std::ostream& out, const Line &line)
 {
 	if (line.fill&&line.stroke) {

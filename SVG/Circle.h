@@ -12,5 +12,6 @@ public:
 	
 	void getInfo(const char*, const char*, const unsigned int, double, double, double);
 	friend std::ostream& operator<<(std::ostream&, const Circle&);
+	void print();
 };
 

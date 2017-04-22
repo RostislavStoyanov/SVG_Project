@@ -1,7 +1,4 @@
-#include"Figure.h"
-#include"Circle.h"
-#include"Rectangle.h"
-#include"Line.h"
+#include"FigureCollection.h"
 
 int main()
 {
@@ -14,5 +11,8 @@ int main()
 	Circle cir;
 	cir.getInfo("black", "yellow", 4, 2, 0, 42);
 	std::cout << cir;
+	FigureCollection figc;
+	figc.addEntry(&cir);
+	figc.printToConsole();
 	return 0;
 }

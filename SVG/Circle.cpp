@@ -17,6 +17,16 @@ void Circle::getInfo(const char *fill, const char *stroke, const unsigned int st
 	this->r = r;
 }
 
+void Circle::print()
+{
+	if (fill&&stroke)
+	{
+		std::cout << fill << "," << stroke << ",";
+	}
+	std::cout << strokeWidth << "," <<
+		cx << "," << cy << "," << r << std::endl;
+}
+
 std::ostream& operator<<(std::ostream& out, const Circle & circle)
 {
 	if (circle.fill&&circle.stroke)
@@ -27,3 +37,5 @@ std::ostream& operator<<(std::ostream& out, const Circle & circle)
 		circle.cx << "," << circle.cy << "," <<circle.r<<std::endl;
 	return out;
 }
+
+

@@ -13,6 +13,7 @@ public:
 	~Figure();
 
 	void getInfo(const char*,const char*,const unsigned int);
-	void print();
+	virtual void print();
+	friend std::ostream& operator<<(std::ostream& out, const Figure*);
 };
 

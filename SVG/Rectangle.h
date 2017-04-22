@@ -12,5 +12,6 @@ public:
 	Rectangle();
 
 	void getInfo(const char*, const char*, const unsigned int,double,double,double,double);
+	void print();
 };
 

@@ -43,3 +43,8 @@ void Figure::print()
 	}
 	std::cout << this->strokeWidth << std::endl;
 }
+
+std::ostream & operator<<(std::ostream& out, const Figure *)
+{
+	return out;
+}
