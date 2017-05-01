@@ -36,7 +36,6 @@ void FigureCollection::addEntry(Figure *figure)
 	}
 	collection[numberOfEntries] = figure;
 	numberOfEntries++;
-	std::cout << '!' << std::endl;
 }
 
 void FigureCollection::printToConsole() const

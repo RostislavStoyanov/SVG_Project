@@ -57,7 +57,7 @@ void menuOpened(const char* file)
 	{
 		input.clear();
 		input.seekg(0, std::ios::beg);
-		char currentFigure[2048];
+		char currentFigure[2048] = { 0 };
 		int currentFigureCounter = 0, figureNumber = 0;
 		bool isFigure = 0;
 		bool completedFigure = 0;
@@ -84,7 +84,7 @@ void menuOpened(const char* file)
 				{
 					currentFigure[currentFigureCounter] = line[i];
 					currentFigureCounter++;
-					if (line[i] == '//'&&line[i + 1] == '>')
+					if (line[i] == '/'&&line[i + 1] == '>')
 					{
 						completedFigure = 1;
 						break;
@@ -97,10 +97,11 @@ void menuOpened(const char* file)
 			}
 				if (completedFigure)
 				{
-					std::cout << "complete" << std::endl;
+					std::cout << "----------" << std::endl;
+					std::cout << currentFigure<< std::endl;
 					char currFill[20] = { 0 };
 					char currStroke[20] = { 0 };
-					char figureType[7] = { 0 };
+					char figureType[10] = { 0 };
 					int figureTypePosition = 0;
 					int currStrokeWidth, indexInTemp, indexInBuff;
 					for (int i = 0; i != ' '; ++i)
@@ -112,10 +113,16 @@ void menuOpened(const char* file)
 					//Checking for figure type
 					//1 - rectangle,2-circle,3-line
 
-					if (currentFigure[1] == 'r') currentFigureType = 1;
-					if (currentFigure[1] == 'c') currentFigureType = 2;
-					if (currentFigure[1] == 'l') currentFigureType = 3;
 
+					for (unsigned int i = 0; i < strlen(currentFigure); ++i) {
+						if (currentFigure[i] == '<')
+						{
+							if (currentFigure[i + 1] == 'r') currentFigureType = 1;
+							if (currentFigure[i + 1] == 'c') currentFigureType = 2;
+							if (currentFigure[i + 1] == 'l') currentFigureType = 3;
+							break;
+						}
+					}
 					//stroke-width ,fill and stroke
 					for (unsigned int i = 0; i < strLen; ++i)
 					{
@@ -135,7 +142,7 @@ void menuOpened(const char* file)
 								getContent(currentFigure, temp, i + 6, indexInTemp);
 							}
 							else break;
-							strcpy_s(currFill, strlen(temp), temp);
+							strcpy_s(currFill, strlen(temp)+1, temp);
 							break;
 						}
 						case 's':
@@ -180,6 +187,7 @@ void menuOpened(const char* file)
 						{
 							switch (currentFigure[i])
 							{
+								std::cout << currentFigure << std::endl;
 							case 'x': {
 								char buffer[20] = { 0 };
 								char temp[20] = { 0 };
@@ -245,13 +253,14 @@ void menuOpened(const char* file)
 								break;
 							}
 							}
-							Rectangle* rect = new Rectangle;
-							rect->getInfo(currFill, currStroke, currStrokeWidth, currX, currY, currWidth, currHeight);
-							figures.addEntry(rect);
 						}
+						Rectangle* rect = new Rectangle;
+						rect->getInfo(currFill, currStroke, currStrokeWidth, currX, currY, currWidth, currHeight);
+						figures.addEntry(rect);
 					}
 					case 2:
 					{
+						std::cout << "CIRC" << std::endl;
 						double currCx, currCy, currR;
 						for (unsigned int i = 0; i < strlen(currentFigure); ++i)
 						{
@@ -356,6 +365,7 @@ void menuOpened(const char* file)
 						figures.addEntry(line);
 					}
 					}
+					nulifyArray(currentFigure, 2048);
 				}
 			}
 		}
