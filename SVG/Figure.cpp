@@ -11,7 +11,7 @@ void Figure::setValue(char *& p, const char * value)
 	}
 	catch (std::bad_alloc&)
 	{
-		std::cerr << "Not enough memory!\n";
+		std::cerr << "Not enough memory!" << std::endl;
 	}
 }
 
@@ -30,9 +30,14 @@ Figure::~Figure()
 
 void Figure::getInfo(const char *nFill, const char *nStroke, const unsigned int nStrokeWidth)
 {
-	this->strokeWidth = nStrokeWidth;
-	setValue(stroke, nStroke);
-	setValue(fill,nFill);
+	if (nStrokeWidth == 0) strokeWidth = 1;
+	else this->strokeWidth = nStrokeWidth;
+	if (nStroke == NULL)
+		setValue(stroke,"black");
+	else setValue(stroke, nStroke);
+	if (nFill == NULL)
+		setValue(fill, "white");
+	else setValue(fill,nFill);
 }
 
 void Figure::print()
