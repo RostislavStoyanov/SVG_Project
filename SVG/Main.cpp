@@ -66,6 +66,7 @@ void menuOpened(const char* file)
 		{
 			char  line[1024];
 			input.getline(line, 1024);
+			std::cout << "!" << std::endl;
 			unsigned int strLen = strlen(line);
 			if (!strcmp(line, "<svg>"))
 			{
@@ -95,6 +96,7 @@ void menuOpened(const char* file)
 					}
 				}
 			}
+			std::cout << completedFigure << std::endl;
 				if (completedFigure)
 				{
 					std::cout << "----------" << std::endl;
@@ -147,6 +149,7 @@ void menuOpened(const char* file)
 						}
 						case 's':
 						{
+							std::cout << "@" << std::endl;
 							char buffer[20] = { 0 };
 							char temp[20] = { 0 };
 							indexInTemp = 0;
@@ -254,9 +257,11 @@ void menuOpened(const char* file)
 							}
 							}
 						}
+						std::cout << currFill << "-" << currStroke << "-" << currStrokeWidth << "-" << currX << "-" << currY << "-" << currWidth << "-" << currHeight << std::endl;
 						Rectangle* rect = new Rectangle;
 						rect->getInfo(currFill, currStroke, currStrokeWidth, currX, currY, currWidth, currHeight);
 						figures.addEntry(rect);
+						break;
 					}
 					case 2:
 					{
@@ -301,12 +306,14 @@ void menuOpened(const char* file)
 									getContent(currentFigure, temp, i + 3, indexInTemp);
 								else break;
 								currR = std::atof(temp);
+								break;
 							}
 							}
 						}
 						Circle * circ = new Circle;
 						circ->getInfo(currFill, currStroke, currStrokeWidth, currCx, currCy, currR);
 						figures.addEntry(circ);
+						break;
 					}
 					case 3:
 					{
@@ -363,9 +370,11 @@ void menuOpened(const char* file)
 						Line* line = new Line;
 						line->getInfo(currFill, currStroke, currStrokeWidth, currX1, currY1, currX2, currY2);
 						figures.addEntry(line);
+						break;
 					}
 					}
 					nulifyArray(currentFigure, 2048);
+					currentFigureCounter = 0;
 				}
 			}
 		}
