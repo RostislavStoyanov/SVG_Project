@@ -20,6 +20,7 @@ Figure::Figure()
 	fill = NULL;
 	stroke = NULL;
 	strokeWidth = 0;
+	type = -1;
 }
 
 Figure::~Figure()
@@ -28,14 +29,14 @@ Figure::~Figure()
 	delete[] stroke;
 }
 
-void Figure::getInfo(const char *nFill, const char *nStroke, const unsigned int nStrokeWidth)
+void Figure::getInfo(const char *nFill, const char *nStroke, const unsigned int nStrokeWidth,int type)
 {
 	if (nStrokeWidth == 0) strokeWidth = 1;
 	else this->strokeWidth = nStrokeWidth;
-	if (nStroke == NULL)
+	if (nStroke[0] == 0)
 		setValue(stroke,"black");
 	else setValue(stroke, nStroke);
-	if (nFill == NULL)
+	if (nFill[0] == 0)
 		setValue(fill, "white");
 	else setValue(fill,nFill);
 }
@@ -49,7 +50,8 @@ void Figure::print()
 	std::cout << this->strokeWidth << std::endl;
 }
 
-std::ostream & operator<<(std::ostream& out, const Figure *)
+int Figure::getType()
 {
-	return out;
+	return type;
 }
+

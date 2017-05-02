@@ -8,12 +8,13 @@ protected:
 	char *stroke;
 	unsigned int strokeWidth;
 	void setValue(char*& p, const char* value);
+	int type;
 public:
 	Figure();
 	~Figure();
 
-	void getInfo(const char*,const char*,const unsigned int);
+	void getInfo(const char*,const char*,const unsigned int,int);
 	virtual void print();
-	friend std::ostream& operator<<(std::ostream& out, const Figure*);
+	int getType();
 };
 

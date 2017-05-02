@@ -10,8 +10,7 @@ private:
 public:
 	Line();
 	
-	void getInfo(const char*,const char*,const unsigned int, const double, const double, const double, const double);
-	friend std::ostream& operator<<(std::ostream&, const Line&);
+	void getInfo(const char*,const char*,const unsigned int, const double, const double, const double, const double,int);
 
 	void print();
 };

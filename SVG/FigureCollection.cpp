@@ -42,6 +42,20 @@ void FigureCollection::printToConsole() const
 {
 	for (unsigned int i = 0; i < numberOfEntries; ++i)
 	{
+		std::cout << i << " ";
+		int currType = collection[i]->getType();
+		switch (currType)
+		{
+		case 1:
+			std::cout << "rectangle ";
+			break;
+		case 2:
+			std::cout << "circle ";
+			break;
+		case 3:
+			std::cout << "line ";
+			break;
+		}
 		collection[i]->print();
 	}
 }

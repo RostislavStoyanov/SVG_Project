@@ -1,7 +1,6 @@
 #include "Circle.h"
 
 
-
 Circle::Circle()
 {
 	Figure();
@@ -9,33 +8,23 @@ Circle::Circle()
 	r = 0;
 }
 
-void Circle::getInfo(const char *fill, const char *stroke, const unsigned int strokeWidth, double cx, double cy, double r)
+void Circle::getInfo(const char *fill, const char *stroke, const unsigned int strokeWidth, double cx, double cy, double r,int type)
 {
-	Figure::getInfo(fill, stroke, strokeWidth);
+	Figure::getInfo(fill, stroke, strokeWidth,type);
 	this->cx = cx;
 	this->cy = cy;
 	this->r = r;
+	this->type = type;
 }
 
 void Circle::print()
 {
-	if (fill&&stroke)
-	{
-		std::cout << fill << "," << stroke << ",";
-	}
-	std::cout << strokeWidth << "," <<
-		cx << "," << cy << "," << r << std::endl;
+
+	std::cout  <<
+		cx << " " << cy << " " << r<<" "<<
+		fill << " " << stroke << " "
+		<< strokeWidth<< std::endl;
 }
 
-std::ostream& operator<<(std::ostream& out, const Circle & circle)
-{
-	if (circle.fill&&circle.stroke)
-	{
-		out << circle.fill << "," << circle.stroke << ",";
-	}
-	out << circle.strokeWidth << "," <<
-		circle.cx << "," << circle.cy << "," <<circle.r<<std::endl;
-	return out;
-}
 
 

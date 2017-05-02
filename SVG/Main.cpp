@@ -8,7 +8,7 @@ const char checkForHeight[9] = "height=\"";
 const char checkForFill[7] = "fill=\"";
 const char checkForStroke[9] = "stroke=\"";
 const char checkForStorkeWidth[15] = "stroke-width=\"";
-const char checkForR[4]= "R=\"";
+const char checkForR[4]= "r=\"";
 const char checkForCx[5]= "cx=\"";
 const char checkForCy[5]= "cy=\"";
 const char checkForX1[5] = "x1=\"";
@@ -66,7 +66,6 @@ void menuOpened(const char* file)
 		{
 			char  line[1024];
 			input.getline(line, 1024);
-			std::cout << "!" << std::endl;
 			unsigned int strLen = strlen(line);
 			if (!strcmp(line, "<svg>"))
 			{
@@ -96,16 +95,13 @@ void menuOpened(const char* file)
 					}
 				}
 			}
-			std::cout << completedFigure << std::endl;
 				if (completedFigure)
 				{
-					std::cout << "----------" << std::endl;
-					std::cout << currentFigure<< std::endl;
 					char currFill[20] = { 0 };
 					char currStroke[20] = { 0 };
 					char figureType[10] = { 0 };
 					int figureTypePosition = 0;
-					int currStrokeWidth, indexInTemp, indexInBuff;
+					int currStrokeWidth=1, indexInTemp, indexInBuff;
 					for (int i = 0; i != ' '; ++i)
 					{
 						figureType[figureTypePosition] = line[i];
@@ -126,6 +122,8 @@ void menuOpened(const char* file)
 						}
 					}
 					//stroke-width ,fill and stroke
+					nulifyArray(currStroke, 20);
+					nulifyArray(currFill, 20);
 					for (unsigned int i = 0; i < strLen; ++i)
 					{
 						switch (line[i])
@@ -149,7 +147,6 @@ void menuOpened(const char* file)
 						}
 						case 's':
 						{
-							std::cout << "@" << std::endl;
 							char buffer[20] = { 0 };
 							char temp[20] = { 0 };
 							indexInTemp = 0;
@@ -179,18 +176,15 @@ void menuOpened(const char* file)
 						}
 
 					}
-					std::cout << "!!!" << currentFigureType << std::endl;
 					switch (currentFigureType)
 					{
 					case 1:
 					{
-						std::cout << "RECT" << std::endl;
 						double currX, currY, currWidth, currHeight;
 						for (unsigned int i = 0; i < strlen(currentFigure); ++i)
 						{
 							switch (currentFigure[i])
 							{
-								std::cout << currentFigure << std::endl;
 							case 'x': {
 								char buffer[20] = { 0 };
 								char temp[20] = { 0 };
@@ -257,15 +251,13 @@ void menuOpened(const char* file)
 							}
 							}
 						}
-						std::cout << currFill << "-" << currStroke << "-" << currStrokeWidth << "-" << currX << "-" << currY << "-" << currWidth << "-" << currHeight << std::endl;
 						Rectangle* rect = new Rectangle;
-						rect->getInfo(currFill, currStroke, currStrokeWidth, currX, currY, currWidth, currHeight);
+						rect->getInfo(currFill, currStroke, currStrokeWidth, currX, currY, currWidth, currHeight,1);
 						figures.addEntry(rect);
 						break;
 					}
 					case 2:
 					{
-						std::cout << "CIRC" << std::endl;
 						double currCx, currCy, currR;
 						for (unsigned int i = 0; i < strlen(currentFigure); ++i)
 						{
@@ -311,7 +303,7 @@ void menuOpened(const char* file)
 							}
 						}
 						Circle * circ = new Circle;
-						circ->getInfo(currFill, currStroke, currStrokeWidth, currCx, currCy, currR);
+						circ->getInfo(currFill, currStroke, currStrokeWidth, currCx, currCy, currR,2);
 						figures.addEntry(circ);
 						break;
 					}
@@ -368,7 +360,7 @@ void menuOpened(const char* file)
 							}
 						}
 						Line* line = new Line;
-						line->getInfo(currFill, currStroke, currStrokeWidth, currX1, currY1, currX2, currY2);
+						line->getInfo(currFill, currStroke, currStrokeWidth, currX1, currY1, currX2, currY2,3);
 						figures.addEntry(line);
 						break;
 					}
@@ -376,6 +368,7 @@ void menuOpened(const char* file)
 					nulifyArray(currentFigure, 2048);
 					currentFigureCounter = 0;
 				}
+				
 			}
 		}
 	else {
@@ -385,17 +378,14 @@ void menuOpened(const char* file)
 	char userInput[256] = { 0 };
 	while (true)
 	{
-		std::cout << 3 << std::endl;
 		std::cin.getline(userInput, 256);
 		if (!strcmp(userInput, "close")) break;
 		if (!strcmp(userInput, "print"))
 		{
-			std::cout << "2" << std::endl;
 			figures.printToConsole();
 		}
 		nulifyArray(userInput, 256);
 	}
-	std::cout << 4 << std::endl;
 	return;
 }
 

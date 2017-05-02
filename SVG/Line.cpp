@@ -7,31 +7,22 @@ Line::Line()
 	x2 = 0; y2 = 0;
 }
 
-void Line::getInfo(const char *fill, const char *stroke, const unsigned int strokeWidth, const double x1, const double y1, const double x2, const double y2)
+void Line::getInfo(const char *fill, const char *stroke, const unsigned int strokeWidth, const double x1, const double y1, const double x2, const double y2,int type)
 {
-	Figure::getInfo(fill, stroke, strokeWidth);
+	Figure::getInfo(fill, stroke, strokeWidth,type);
 	this->x1 = x1;
 	this->x2 = x2;
 	this->y1 = y1;
 	this->y2 = y2;
+	this->type = type;
 }
 
 void Line::print()
 {
-	if (fill&&stroke)
-	{
-		std::cout << fill << "," << stroke << ",";
-	}
-	std::cout << strokeWidth << "," <<
-		x1 << "," << y1 << "," << x2 <<","<<y2 <<std::endl;
+	std::cout <<
+		x1 << " " << y1 << " " << x2 << " " << y2 <<" " 
+		<< fill << " " << stroke << " " << strokeWidth
+			<< std::endl;
 }
 
-std::ostream & operator<<(std::ostream& out, const Line &line)
-{
-	if (line.fill&&line.stroke) {
-		out << line.fill << "," << line.stroke << ",";
-	}
-	out << line.strokeWidth << "," <<
-		line.x1 << "," << line.y1 << "," << line.x2 << "," << line.y2 << std::endl;
-	return out;
-}
+
