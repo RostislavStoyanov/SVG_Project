@@ -388,7 +388,7 @@ void menuOpened(const char* file)
 		}
 		if (!strcmp(firstWord, "close")) break;
 		if (!strcmp(firstWord, "print")) figures.printToConsole();
-		if (strcmp(firstWord, "create"))figures.createFromLine(userInput);
+		if (!strcmp(firstWord, "create"))figures.createFromLine(userInput);
 		nulifyArray(userInput, 256);
 		nulifyArray(firstWord, 256);
 		firstWordIndex = 0;

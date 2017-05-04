@@ -60,7 +60,7 @@ void FigureCollection::createFromLine(char *line)
 	int indexStart = 0, indexFigure = 0, figureType = -1;
 	char figure[250] = { 0 };
 	while (line[indexStart++] != ' ');
-	for (unsigned int i = indexStart+1; line[i] != ' '; ++i)
+	for (unsigned int i = indexStart; line[i] != ' '; ++i)
 	{
 		figure[indexFigure++] = line[i];
 	}
@@ -89,6 +89,7 @@ void FigureCollection::createFromLine(char *line)
 		currX = std::atof(temp);
 		nulifyArrayF(temp, 256);
 		indexInTemp = 0;
+		indexForContent++;
 		//acquiring Y
 		for (int i = indexForContent; line[i] != ' '&&i <= lineLen; ++i)
 		{
@@ -98,6 +99,7 @@ void FigureCollection::createFromLine(char *line)
 		currY = std::atof(temp);
 		nulifyArrayF(temp, 256);
 		indexInTemp = 0;
+		indexForContent++;
 		//acquiring width
 		for (int i = indexForContent; line[i] != ' '&&i <= lineLen; ++i)
 		{
@@ -107,21 +109,14 @@ void FigureCollection::createFromLine(char *line)
 		currWidth = std::atof(temp);
 		nulifyArrayF(temp, 256);
 		indexInTemp = 0;
+		indexForContent++;
 		//acquiring height
 		for (int i = indexForContent; line[i] != ' '&&i <= lineLen; ++i)
 		{
 			temp[indexInTemp++] = line[i];
 			indexForContent++;
 		}
-		currHeight = std::atof(temp);
-		nulifyArrayF(temp, 256);
-		indexInTemp = 0;
-		//acquiring width
-		for (int i = indexForContent; line[i] != ' '&&i <= lineLen; ++i)
-		{
-			temp[indexInTemp++] = line[i];
-			indexForContent++;
-		}
+		indexForContent++;
 		currHeight = std::atof(temp);
 		nulifyArrayF(temp, 256);
 		indexInTemp = 0; 
@@ -131,6 +126,7 @@ void FigureCollection::createFromLine(char *line)
 			temp[indexInTemp++] = line[i];
 			indexForContent++;
 		}
+		indexForContent++;
 		strcpy_s(currFill, strlen(temp) + 1, temp);
 		nulifyArrayF(temp, 256);
 		indexInTemp = 0;
@@ -140,6 +136,7 @@ void FigureCollection::createFromLine(char *line)
 			temp[indexInTemp++] = line[i];
 			indexForContent++;
 		}
+		indexForContent++;
 		strcpy_s(currStroke, strlen(temp) + 1, temp);
 		nulifyArrayF(temp, 256);
 		indexInTemp = 0;
@@ -159,10 +156,150 @@ void FigureCollection::createFromLine(char *line)
 	}
 	case 2:
 	{
+		nulifyArrayF(currFill, lineLen - indexForContent);
+		nulifyArrayF(currFill, lineLen - indexForContent);
+		double  currX, currY, currR;
+		//acquiring X
+		for (int i = indexForContent; line[i] != ' '&&i <= lineLen; ++i)
+		{
+			temp[indexInTemp++] = line[i];
+			indexForContent++;
+		}
+		currX = std::atof(temp);
+		nulifyArrayF(temp, 256);
+		indexInTemp = 0;
+		indexForContent++;
+		//acquiring Y
+		for (int i = indexForContent; line[i] != ' '&&i <= lineLen; ++i)
+		{
+			temp[indexInTemp++] = line[i];
+			indexForContent++;
+		}
+		currY = std::atof(temp);
+		nulifyArrayF(temp, 256);
+		indexInTemp = 0;
+		indexForContent++;
+		//acquiring Radius
+		for (int i = indexForContent; line[i] != ' '&&i <= lineLen; ++i)
+		{
+			temp[indexInTemp++] = line[i];
+			indexForContent++;
+		}
+		currR = std::atof(temp);
+		nulifyArrayF(temp, 256);
+		indexInTemp = 0;
+		indexForContent++;
+		//acquiring fill
+		for (int i = indexForContent; line[i] != ' '&&i <= lineLen; ++i)
+		{
+			temp[indexInTemp++] = line[i];
+			indexForContent++;
+		}
+		indexForContent++;
+		strcpy_s(currFill, strlen(temp) + 1, temp);
+		nulifyArrayF(temp, 256);
+		indexInTemp = 0;
+		//acquiring stroke
+		for (int i = indexForContent; line[i] != ' '&&i <= lineLen; ++i)
+		{
+			temp[indexInTemp++] = line[i];
+			indexForContent++;
+		}
+		indexForContent++;
+		strcpy_s(currStroke, strlen(temp) + 1, temp);
+		nulifyArrayF(temp, 256);
+		indexInTemp = 0;
+		//acquiring strokeWidth
+		for (int i = indexForContent; line[i] != ' '&&i <= lineLen; ++i)
+		{
+			temp[indexInTemp++] = line[i];
+			indexForContent++;
+		}
+		currStrokeWidth = std::atoi(temp);
+		nulifyArrayF(temp, 256);
+		indexInTemp = 0;
+		Circle* circ = new Circle;
+		circ->getInfo(currFill, currStroke, currStrokeWidth, currX, currY, currR);
+		this->addEntry(circ);
 		break;
 	}
 	case 3:
 	{
+		nulifyArrayF(currFill, lineLen - indexForContent);
+		nulifyArrayF(currFill, lineLen - indexForContent);
+		double  currX1, currY1, currX2, currY2;
+		//acquiring X1
+		for (int i = indexForContent; line[i] != ' '&&i <= lineLen; ++i)
+		{
+			temp[indexInTemp++] = line[i];
+			indexForContent++;
+		}
+		currX1 = std::atof(temp);
+		nulifyArrayF(temp, 256);
+		indexInTemp = 0;
+		indexForContent++;
+		//acquiring Y1
+		for (int i = indexForContent; line[i] != ' '&&i <= lineLen; ++i)
+		{
+			temp[indexInTemp++] = line[i];
+			indexForContent++;
+		}
+		currY1 = std::atof(temp);
+		nulifyArrayF(temp, 256);
+		indexInTemp = 0;
+		indexForContent++;
+		//acquiring X2
+		for (int i = indexForContent; line[i] != ' '&&i <= lineLen; ++i)
+		{
+			temp[indexInTemp++] = line[i];
+			indexForContent++;
+		}
+		currX2 = std::atof(temp);
+		nulifyArrayF(temp, 256);
+		indexInTemp = 0;
+		indexForContent++;
+		//acquiring Y2
+		for (int i = indexForContent; line[i] != ' '&&i <= lineLen; ++i)
+		{
+			temp[indexInTemp++] = line[i];
+			indexForContent++;
+		}
+		currY2 = std::atof(temp);
+		nulifyArrayF(temp, 256);
+		indexInTemp = 0;
+		indexForContent++;
+		//acquiring fill
+		for (int i = indexForContent; line[i] != ' '&&i <= lineLen; ++i)
+		{
+			temp[indexInTemp++] = line[i];
+			indexForContent++;
+		}
+		indexForContent++;
+		strcpy_s(currFill, strlen(temp) + 1, temp);
+		nulifyArrayF(temp, 256);
+		indexInTemp = 0;
+		//acquiring stroke
+		for (int i = indexForContent; line[i] != ' '&&i <= lineLen; ++i)
+		{
+			temp[indexInTemp++] = line[i];
+			indexForContent++;
+		}
+		indexForContent++;
+		strcpy_s(currStroke, strlen(temp) + 1, temp);
+		nulifyArrayF(temp, 256);
+		indexInTemp = 0;
+		//acquiring strokeWidth
+		for (int i = indexForContent; line[i] != ' '&&i <= lineLen; ++i)
+		{
+			temp[indexInTemp++] = line[i];
+			indexForContent++;
+		}
+		currStrokeWidth = std::atoi(temp);
+		nulifyArrayF(temp, 256);
+		indexInTemp = 0;
+		Line* line = new Line;
+		line->getInfo(currFill, currStroke, currStrokeWidth, currX1, currY1, currX2,currY2);
+		this->addEntry(line);
 		break;
 	}
 	default:
