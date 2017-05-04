@@ -8,19 +8,18 @@ Circle::Circle()
 	r = 0;
 }
 
-void Circle::getInfo(const char *fill, const char *stroke, const unsigned int strokeWidth, double cx, double cy, double r,int type)
+void Circle::getInfo(const char *fill, const char *stroke, const unsigned int strokeWidth, double cx, double cy, double r)
 {
-	Figure::getInfo(fill, stroke, strokeWidth,type);
+	Figure::getInfo(fill, stroke, strokeWidth);
 	this->cx = cx;
 	this->cy = cy;
 	this->r = r;
-	this->type = type;
 }
 
 void Circle::print()
 {
 
-	std::cout  <<
+	std::cout  <<"circle "<<
 		cx << " " << cy << " " << r<<" "<<
 		fill << " " << stroke << " "
 		<< strokeWidth<< std::endl;

@@ -8,13 +8,11 @@ protected:
 	char *stroke;
 	unsigned int strokeWidth;
 	void setValue(char*& p, const char* value);
-	int type;
 public:
 	Figure();
 	~Figure();
 
-	void getInfo(const char*,const char*,const unsigned int,int);
+	void getInfo(const char*,const char*,const unsigned int);
 	virtual void print();
-	int getType();
 };
 

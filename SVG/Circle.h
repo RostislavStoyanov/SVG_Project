@@ -10,7 +10,7 @@ private:
 public:
 	Circle();
 	
-	void getInfo(const char*, const char*, const unsigned int, double, double, double,int);
+	void getInfo(const char*, const char*, const unsigned int, double, double, double);
 	void print();
 };
 

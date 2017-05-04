@@ -20,7 +20,6 @@ Figure::Figure()
 	fill = NULL;
 	stroke = NULL;
 	strokeWidth = 0;
-	type = -1;
 }
 
 Figure::~Figure()
@@ -29,7 +28,7 @@ Figure::~Figure()
 	delete[] stroke;
 }
 
-void Figure::getInfo(const char *nFill, const char *nStroke, const unsigned int nStrokeWidth,int type)
+void Figure::getInfo(const char *nFill, const char *nStroke, const unsigned int nStrokeWidth)
 {
 	if (nStrokeWidth == 0) strokeWidth = 1;
 	else this->strokeWidth = nStrokeWidth;
@@ -50,8 +49,4 @@ void Figure::print()
 	std::cout << this->strokeWidth << std::endl;
 }
 
-int Figure::getType()
-{
-	return type;
-}
 

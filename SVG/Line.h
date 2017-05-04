@@ -10,7 +10,7 @@ private:
 public:
 	Line();
 	
-	void getInfo(const char*,const char*,const unsigned int, const double, const double, const double, const double,int);
+	void getInfo(const char*,const char*,const unsigned int, const double, const double, const double, const double);
 
 	void print();
 };

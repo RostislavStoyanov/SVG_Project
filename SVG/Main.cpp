@@ -99,10 +99,10 @@ void menuOpened(const char* file)
 				{
 					char currFill[20] = { 0 };
 					char currStroke[20] = { 0 };
-					char figureType[10] = { 0 };
+					char figureType[30] = { 0 };
 					int figureTypePosition = 0;
 					int currStrokeWidth=1, indexInTemp, indexInBuff;
-					for (int i = 0; i != ' '; ++i)
+					for (int i = 0; line[i] != ' '; ++i)
 					{
 						figureType[figureTypePosition] = line[i];
 						figureTypePosition++;
@@ -124,9 +124,9 @@ void menuOpened(const char* file)
 					//stroke-width ,fill and stroke
 					nulifyArray(currStroke, 20);
 					nulifyArray(currFill, 20);
-					for (unsigned int i = 0; i < strLen; ++i)
+					for (unsigned int i = 0; i < strlen(currentFigure); ++i)
 					{
-						switch (line[i])
+						switch (currentFigure[i])
 						{
 						case 'f':
 						{
@@ -137,7 +137,7 @@ void menuOpened(const char* file)
 							int index = i;
 							searchFor(currentFigure, buffer, index, indexInBuff);
 							buffer[indexInBuff] = currentFigure[index + 1];
-							if (strcmp(buffer, checkForFill) == 0 && currentFigure[i - 1] == ' ')
+							if (strcmp(buffer, checkForFill) == 0 )
 							{
 								getContent(currentFigure, temp, i + 6, indexInTemp);
 							}
@@ -156,7 +156,7 @@ void menuOpened(const char* file)
 							buffer[indexInBuff] = currentFigure[index + 1];
 							if (currentFigure[i + 6] == '-')
 							{
-								if (strcmp(buffer, checkForStorkeWidth) == 0 && currentFigure[i - 1] == ' ')
+								if (strcmp(buffer, checkForStorkeWidth) == 0)
 								{
 									getContent(currentFigure, temp, i + 14, indexInTemp);
 								}
@@ -165,12 +165,12 @@ void menuOpened(const char* file)
 								break;
 
 							}
-							else if (strcmp(buffer, checkForStroke) == 0 && currentFigure[i - 1] == ' ')
+							else if (strcmp(buffer, checkForStroke) == 0 )
 							{
 								getContent(currentFigure, temp, i + 8, indexInTemp);
 							}
 							else break;
-							strcpy_s(currStroke, strlen(temp), temp);
+							strcpy_s(currStroke, strlen(temp)+1, temp);
 							break;
 						}
 						}
@@ -224,7 +224,7 @@ void menuOpened(const char* file)
 								int index = i;
 								searchFor(currentFigure, buffer, index, indexInBuff);
 								buffer[indexInBuff] = currentFigure[index + 1];
-								if (strcmp(buffer, checkForWidth) == 0 && currentFigure[i - 1] == ' ')
+								if (strcmp(buffer, checkForWidth) == 0)
 								{
 									getContent(currentFigure, temp, i + 7, indexInTemp);
 								}
@@ -241,7 +241,7 @@ void menuOpened(const char* file)
 								int index = i;
 								searchFor(currentFigure, buffer, index, indexInBuff);
 								buffer[indexInBuff] = currentFigure[index + 1];
-								if (strcmp(buffer, checkForHeight) == 0 && currentFigure[i - 1] == ' ')
+								if (strcmp(buffer, checkForHeight) == 0 )
 								{
 									getContent(currentFigure, temp, i + 8, indexInTemp);
 								}
@@ -252,7 +252,7 @@ void menuOpened(const char* file)
 							}
 						}
 						Rectangle* rect = new Rectangle;
-						rect->getInfo(currFill, currStroke, currStrokeWidth, currX, currY, currWidth, currHeight,1);
+						rect->getInfo(currFill, currStroke, currStrokeWidth, currX, currY, currWidth, currHeight);
 						figures.addEntry(rect);
 						break;
 					}
@@ -272,12 +272,12 @@ void menuOpened(const char* file)
 								int index = i;
 								searchFor(currentFigure, buffer, index, indexInBuff);
 								buffer[indexInBuff] = currentFigure[index + 1];
-								if (strcmp(buffer, checkForCx) == 0 && currentFigure[i - 1] == ' ')
+								if (strcmp(buffer, checkForCx) == 0 )
 								{
 									getContent(currentFigure, temp, i + 4, indexInTemp);
 									currCx = std::atof(temp);
 								}
-								else if (strcmp(buffer, checkForCy) == 0 && currentFigure[i - 1] == ' ')
+								else if (strcmp(buffer, checkForCy) == 0)
 								{
 									getContent(currentFigure, temp, i + 4, indexInTemp);
 									currCy = std::atof(temp);
@@ -294,7 +294,7 @@ void menuOpened(const char* file)
 								int index = i;
 								searchFor(currentFigure, buffer, index, indexInBuff);
 								buffer[indexInBuff] = currentFigure[index + 1];
-								if (strcmp(buffer, checkForR) == 0 && currentFigure[i - 1] == ' ')
+								if (strcmp(buffer, checkForR) == 0 )
 									getContent(currentFigure, temp, i + 3, indexInTemp);
 								else break;
 								currR = std::atof(temp);
@@ -303,7 +303,7 @@ void menuOpened(const char* file)
 							}
 						}
 						Circle * circ = new Circle;
-						circ->getInfo(currFill, currStroke, currStrokeWidth, currCx, currCy, currR,2);
+						circ->getInfo(currFill, currStroke, currStrokeWidth, currCx, currCy, currR);
 						figures.addEntry(circ);
 						break;
 					}
@@ -322,12 +322,12 @@ void menuOpened(const char* file)
 							int index = i;
 							searchFor(currentFigure, buffer, index, indexInBuff);
 							buffer[indexInBuff] = currentFigure[index + 1];
-							if (strcmp(buffer, checkForX1) == 0 && currentFigure[i - 1] == ' ')
+							if (strcmp(buffer, checkForX1) == 0 )
 							{
 								getContent(currentFigure, temp, i + 4, indexInTemp);
 								currX1 = std::atof(temp);
 							}
-							else if (strcmp(buffer, checkForX2) == 0 && currentFigure[i - 1] == ' ')
+							else if (strcmp(buffer, checkForX2) == 0 )
 							{
 								getContent(currentFigure, temp, i + 4, indexInTemp);
 								currX2 = std::atof(temp);
@@ -344,12 +344,12 @@ void menuOpened(const char* file)
 								int index = i;
 								searchFor(currentFigure, buffer, index, indexInBuff);
 								buffer[indexInBuff] = currentFigure[index + 1];
-								if (strcmp(buffer, checkForY1) == 0 && currentFigure[i - 1] == ' ')
+								if (strcmp(buffer, checkForY1) == 0)
 								{
 									getContent(currentFigure, temp, i + 4, indexInTemp);
 									currY1 = std::atof(temp);
 								}
-								else if (strcmp(buffer, checkForY2) == 0 && currentFigure[i - 1] == ' ')
+								else if (strcmp(buffer, checkForY2) == 0)
 								{
 									getContent(currentFigure, temp, i + 4, indexInTemp);
 									currY2 = std::atof(temp);
@@ -360,7 +360,7 @@ void menuOpened(const char* file)
 							}
 						}
 						Line* line = new Line;
-						line->getInfo(currFill, currStroke, currStrokeWidth, currX1, currY1, currX2, currY2,3);
+						line->getInfo(currFill, currStroke, currStrokeWidth, currX1, currY1, currX2, currY2);
 						figures.addEntry(line);
 						break;
 					}
@@ -376,15 +376,22 @@ void menuOpened(const char* file)
 		std::ofstream out(file);
 	}
 	char userInput[256] = { 0 };
+	char firstWord[256] = { 0 };
+	int firstWordIndex = 0;
 	while (true)
 	{
 		std::cin.getline(userInput, 256);
-		if (!strcmp(userInput, "close")) break;
-		if (!strcmp(userInput, "print"))
+		for (unsigned int i = 0; userInput[i] != ' '&&i < strlen(userInput); ++i)
 		{
-			figures.printToConsole();
+			firstWord[firstWordIndex] = userInput[i];
+			firstWordIndex++;
 		}
+		if (!strcmp(firstWord, "close")) break;
+		if (!strcmp(firstWord, "print")) figures.printToConsole();
+		if (strcmp(firstWord, "create"))figures.createFromLine(userInput);
 		nulifyArray(userInput, 256);
+		nulifyArray(firstWord, 256);
+		firstWordIndex = 0;
 	}
 	return;
 }

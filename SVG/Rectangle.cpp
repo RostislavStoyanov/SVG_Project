@@ -10,19 +10,18 @@ Rectangle::Rectangle()
 	width = 0;
 }
 
-void Rectangle::getInfo(const char *fill, const char *stroke, const unsigned int strokeWidth, double x , double y, double width, double height,int type)
+void Rectangle::getInfo(const char *fill, const char *stroke, const unsigned int strokeWidth, double x , double y, double width, double height)
 {
-	Figure::getInfo(fill, stroke, strokeWidth,type);
+	Figure::getInfo(fill, stroke, strokeWidth);
 	this->x = x;
 	this->y = y;
 	this->width = width;
 	this->height = height;
-	this->type = type;
 }
 
 void Rectangle::print()
 {
-	std::cout  <<
+	std::cout  <<"rectangle "<<
 		x << " " << y << " " << width << " " << height << " "
 		<< fill << " " << stroke << " "
 		<<strokeWidth << std::endl;

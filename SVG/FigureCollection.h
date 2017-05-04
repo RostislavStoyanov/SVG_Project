@@ -16,5 +16,6 @@ public:
 
 	void addEntry(Figure*);
 	void printToConsole() const;	
+	void createFromLine(char *);
 };
 
