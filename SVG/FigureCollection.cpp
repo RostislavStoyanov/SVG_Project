@@ -309,3 +309,29 @@ void FigureCollection::createFromLine(char *line)
 	delete[] currFill;
 	delete[] currStroke;
 }
+
+void FigureCollection::deleteEntry(int id)
+{
+	if (id == -1)
+	{
+		for (int i = id; i < numberOfEntries; ++i)
+			delete collection[i];
+	}
+	if (id > numberOfEntries)
+	{
+		std::cerr << "No entry at this id " << std::endl;
+		return;
+	}
+	else
+	{
+		Figure* temp = collection[id];
+		for (int i = id; i < numberOfEntries; ++i)
+		{
+			collection[i] = collection[i + 1];
+		}
+		delete temp;
+		numberOfEntries--;
+		std::cout << "Deleted entry at postition" << id << std::endl;
+	}
+	
+}

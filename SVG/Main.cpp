@@ -66,7 +66,7 @@ void menuOpened(const char* file)
 		{
 			char  line[1024];
 			input.getline(line, 1024);
-			unsigned int strLen = strlen(line);
+			size_t strLen = strlen(line);
 			if (!strcmp(line, "<svg>"))
 			{
 				isFigure = 1;
@@ -389,6 +389,15 @@ void menuOpened(const char* file)
 		if (!strcmp(firstWord, "close")) break;
 		if (!strcmp(firstWord, "print")) figures.printToConsole();
 		if (!strcmp(firstWord, "create"))figures.createFromLine(userInput);
+		if (!strcmp(firstWord, "erase"))
+		{
+			if (userInput[firstWordIndex + 1] == 0) figures.deleteEntry();
+			else
+			{
+				int id = (int)((userInput[firstWordIndex + 1]) - '0');
+				figures.deleteEntry(id);
+			}
+		}
 		nulifyArray(userInput, 256);
 		nulifyArray(firstWord, 256);
 		firstWordIndex = 0;
@@ -404,7 +413,7 @@ void menu()
 		std::cin.getline(userInput, 256);
 		if (!strcmp(userInput, "exit"))
 			return;
-		unsigned int inputLen = strlen(userInput);
+		size_t inputLen = strlen(userInput);
 		if (userInput[0] == 'o' && userInput[1] == 'p' && userInput[2] == 'e'&&userInput[3] == 'n'&&userInput[4]!=0)
 		{
 			fileName = new char[inputLen - 4];
