@@ -391,7 +391,7 @@ void menuOpened(const char* file)
 		if (!strcmp(firstWord, "create"))figures.createFromLine(userInput);
 		if (!strcmp(firstWord, "erase"))
 		{
-			if (userInput[firstWordIndex + 1] == 0) figures.deleteEntry();
+			if (userInput[firstWordIndex] == 0) figures.deleteEntry();
 			else
 			{
 				int id = (int)((userInput[firstWordIndex + 1]) - '0');

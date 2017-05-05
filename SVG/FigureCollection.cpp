@@ -9,6 +9,15 @@ void nulifyArrayF(char arr[], const int size)
 	return;
 }
 
+void getFromPosition(char* arr, char* temp, int& index,int&indexInTemp,int lineLen)
+{
+	for (int i =index; arr[i] != ' '&&i <= lineLen; ++i)
+	{
+		temp[indexInTemp++] = arr[i];
+		index++;
+	}
+}
+
 FigureCollection::FigureCollection()
 {
 	numberOfEntries = 0;
@@ -48,6 +57,11 @@ void FigureCollection::addEntry(Figure *figure)
 
 void FigureCollection::printToConsole() const
 {
+	if (numberOfEntries == 0)
+	{
+		std::cerr << "No entires" << std::endl;
+		return;
+	}
 	for (unsigned int i = 0; i < numberOfEntries; ++i)
 	{
 		std::cout << i << " ";
@@ -314,8 +328,12 @@ void FigureCollection::deleteEntry(int id)
 {
 	if (id == -1)
 	{
-		for (int i = id; i < numberOfEntries; ++i)
+		for (int i = 0; i < numberOfEntries; i++)
+		{
 			delete collection[i];
+		}
+		numberOfEntries = 0;
+		return;
 	}
 	if (id > numberOfEntries)
 	{
