@@ -24,4 +24,11 @@ void Line::print()
 			<< std::endl;
 }
 
+void Line::printToFile(std::ofstream &out)
+{
+	out <<'\t'<<"<line x1=\"" << x1 << "\" y1=\"" << y1 << "\" x2=\"" << x2 << "\" y2=\"" << y2 << "\"";
+	out << std::endl;
+	Figure::printToFile(out);
+}
+
 

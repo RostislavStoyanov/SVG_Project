@@ -27,4 +27,12 @@ void Rectangle::print()
 		<<strokeWidth << std::endl;
 }
 
+void Rectangle::printToFile( std::ofstream &out)
+{
+	out << "\t<rect x=\"" << x << "\" y=\"" << y << "\" width=\"" << width << "\" height=\"" << height << "\"";
+	out << std::endl;
+	Figure::printToFile(out);
+	return;
+}
+
 

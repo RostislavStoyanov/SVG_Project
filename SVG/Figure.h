@@ -1,6 +1,7 @@
 #pragma once
 #include<iostream>
 #include<cstring>
+#include<fstream>
 class Figure
 {
 protected:
@@ -14,5 +15,7 @@ public:
 
 	void getInfo(const char*,const char*,const unsigned int);
 	virtual void print();
+
+	virtual void printToFile(std::ofstream&);
 };
 

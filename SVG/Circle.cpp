@@ -25,5 +25,12 @@ void Circle::print()
 		<< strokeWidth<< std::endl;
 }
 
+void Circle::printToFile(std::ofstream &out)
+{
+	out << "\t" << "<circle cx=\"" << cx << "\" cy=\"" << cy << "\" r=\"" << r << "\"";
+	out << std::endl;
+	Figure::printToFile(out);
+}
+
 
 

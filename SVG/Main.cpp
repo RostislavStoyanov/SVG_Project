@@ -1,5 +1,4 @@
 #include"FigureCollection.h"
-#include<fstream>
 
 const char checkForX[4] = "x=\"";
 const char checkForY[4] = "y=\"";
@@ -15,6 +14,13 @@ const char checkForX1[5] = "x1=\"";
 const char checkForX2[5] = "x2=\"";
 const char checkForY1[5] = "y1=\"";
 const char checkForY2[5] = "y2=\"";
+const char firstRows[3][100] =
+{
+	"<?xml version=\"1.0\" standalone=\"no\"?>",
+	"<!DOCTYPE svg PUBLIC \" -//W3C//DTD SVG 1.1//EN\" ",
+	" \"http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd\">",
+};
+
 
 void getContent(const char arr[], char temp[], const int startPostion, int indexInTemp)
 {
@@ -37,7 +43,7 @@ void searchFor(const char arr[], char buffer[], int& index, int& indexInBuff)
 	}
 }
 
-void nulifyArray(char arr[], const int size)
+void nulifyArray(char arr[], const size_t size)
 {
 	for (int i = 0; i<size; ++i)
 	{
@@ -46,6 +52,14 @@ void nulifyArray(char arr[], const int size)
 	return;
 }
 
+bool checkForBlank(char* temp)
+{
+	for(size_t i=0;i<strlen(temp);i++)
+	{
+		if (temp[i] != 0) return false;
+	}
+	return true;
+}
 
 void menuOpened(const char* file)
 {
@@ -53,6 +67,7 @@ void menuOpened(const char* file)
 	std::ifstream input;
 	input.open(file);
 	FigureCollection figures;
+	int numberOfLines = 0;
 	if (input.is_open())
 	{
 		input.clear();
@@ -64,10 +79,11 @@ void menuOpened(const char* file)
 		int currentFigureType = 0;
 		while (!input.eof())
 		{
+			if (!isFigure) numberOfLines++;
 			char  line[1024];
 			input.getline(line, 1024);
 			size_t strLen = strlen(line);
-			if (!strcmp(line, "<svg>"))
+			if (line[0]=='<'&&line[1]=='s'&&line[2]=='v'&&line[3]=='g')
 			{
 				isFigure = 1;
 				continue;
@@ -97,6 +113,8 @@ void menuOpened(const char* file)
 			}
 				if (completedFigure)
 				{
+					if (checkForBlank(currentFigure)) 
+						continue;
 					char currFill[20] = { 0 };
 					char currStroke[20] = { 0 };
 					char figureType[30] = { 0 };
@@ -387,9 +405,9 @@ void menuOpened(const char* file)
 			firstWordIndex++;
 		}
 		if (!strcmp(firstWord, "close")) break;
-		if (!strcmp(firstWord, "print")) figures.printToConsole();
-		if (!strcmp(firstWord, "create"))figures.createFromLine(userInput);
-		if (!strcmp(firstWord, "erase"))
+		else if (!strcmp(firstWord, "print")) figures.printToConsole();
+		else if (!strcmp(firstWord, "create"))figures.createFromLine(userInput);
+		else if (!strcmp(firstWord, "erase"))
 		{
 			if (userInput[firstWordIndex] == 0) figures.deleteEntry();
 			else
@@ -397,6 +415,39 @@ void menuOpened(const char* file)
 				int id = (int)((userInput[firstWordIndex + 1]) - '0');
 				figures.deleteEntry(id);
 			}
+		}
+		else if (firstWord[0] == 's'&&firstWord[1] == 'a'&&firstWord[2] == 'v'&&firstWord[3] == 'e')
+		{
+			input.clear();
+			input.seekg(0, std::ios::beg);
+			char ** firstLines = new char*[numberOfLines];
+			for (int i = 0; i < numberOfLines; i++)
+			{
+				firstLines[i] = new char[1024];
+				char currFileLine[1024] = { 0 };
+				input.getline(currFileLine, 1024);
+				strcpy_s(firstLines[i], 1024, currFileLine);
+			}
+			char filePath[256] = { 0 };
+			unsigned int filePathPosition = 0;
+			if (!strcmp(firstWord, "saveas"))
+			{
+				for (int i = firstWordIndex + 1; userInput[i] != ' '; ++i)
+				{
+					filePath[filePathPosition] = userInput[i];
+					filePathPosition++;
+				}
+				std::ofstream out(filePath, std::ios::out);
+				for (int i = 0; i < 3; i++)
+				{
+					out << firstRows[i] << std::endl;
+				}
+				figures.exportToFile(out);
+				out.close();
+			}
+			for (int i = 0; i < numberOfLines; i++)
+				delete[] firstLines[i];
+			delete[] firstLines;
 		}
 		nulifyArray(userInput, 256);
 		nulifyArray(firstWord, 256);

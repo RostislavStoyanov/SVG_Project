@@ -12,5 +12,6 @@ public:
 	
 	void getInfo(const char*, const char*, const unsigned int, double, double, double);
 	void print();
+	void printToFile(std::ofstream&);
 };
 

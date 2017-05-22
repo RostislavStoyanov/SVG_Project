@@ -49,4 +49,11 @@ void Figure::print()
 	std::cout << this->strokeWidth << std::endl;
 }
 
+void Figure::printToFile(std::ofstream &out)
+{
+	out << '\t' << '\t' << "fill=\"" << fill << "\" stroke=" << stroke << "\" stroke-width=\"" << strokeWidth << "\" />\n";
+	out << std::endl;
+	return;
+}
+
 
