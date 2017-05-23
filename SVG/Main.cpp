@@ -14,15 +14,17 @@ const char checkForX1[5] = "x1=\"";
 const char checkForX2[5] = "x2=\"";
 const char checkForY1[5] = "y1=\"";
 const char checkForY2[5] = "y2=\"";
-const char firstRows[3][100] =
+const char firstRows[5][100] =
 {
 	"<?xml version=\"1.0\" standalone=\"no\"?>",
 	"<!DOCTYPE svg PUBLIC \" -//W3C//DTD SVG 1.1//EN\" ",
 	" \"http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd\">",
+	"<svg width = \"40cm\" height = \"20cm\" viewBox = \"0 0 1200 700\"",
+	"\t xmlns = \"http://www.w3.org/2000/svg\" version = \"1.1>",
 };
 
 
-void getContent(const char arr[], char temp[], const int startPostion, int indexInTemp)
+void getContent(const char arr[], char temp[], const int startPostion, int &indexInTemp)
 {
 	for (int j = startPostion; arr[j] != '"'; ++j)
 	{
@@ -63,6 +65,7 @@ bool checkForBlank(char* temp)
 
 void menuOpened(const char* file)
 {
+	bool isNew = 0;
 	std::cout << "Opening:" << file << std::endl;
 	std::ifstream input;
 	input.open(file);
@@ -136,7 +139,6 @@ void menuOpened(const char* file)
 							if (currentFigure[i + 1] == 'r') currentFigureType = 1;
 							if (currentFigure[i + 1] == 'c') currentFigureType = 2;
 							if (currentFigure[i + 1] == 'l') currentFigureType = 3;
-							break;
 						}
 					}
 					//stroke-width ,fill and stroke
@@ -198,7 +200,7 @@ void menuOpened(const char* file)
 					{
 					case 1:
 					{
-						double currX, currY, currWidth, currHeight;
+						double currX, currY, currWidth=-1, currHeight=-1;
 						for (unsigned int i = 0; i < strlen(currentFigure); ++i)
 						{
 							switch (currentFigure[i])
@@ -214,8 +216,8 @@ void menuOpened(const char* file)
 								if (strcmp(buffer, checkForX) == 0)
 								{
 									getContent(currentFigure, temp, i + 3, indexInTemp);
+									currX = std::atof(temp);
 								}
-								currX = std::atof(temp);
 								break;
 							}
 							case 'y': {
@@ -226,15 +228,16 @@ void menuOpened(const char* file)
 								int index = i;
 								searchFor(currentFigure, buffer, index, indexInBuff);
 								buffer[indexInBuff] = currentFigure[index + 1];
-								if (strcmp(buffer, checkForY) == 0)
+								if (!strcmp(buffer, checkForY))
 								{
 									getContent(currentFigure, temp, i + 3, indexInTemp);
+									currY = std::atof(temp);
 								}
-								currY = std::atoi(temp);
 								break;
 							}
 							case 'w':
 							{
+								if (currWidth != -1) break;
 								char buffer[20] = { 0 };
 								char temp[20] = { 0 };
 								indexInTemp = 0;
@@ -242,7 +245,7 @@ void menuOpened(const char* file)
 								int index = i;
 								searchFor(currentFigure, buffer, index, indexInBuff);
 								buffer[indexInBuff] = currentFigure[index + 1];
-								if (strcmp(buffer, checkForWidth) == 0)
+								if (strcmp(buffer, checkForWidth) == 0 && currentFigure[index - 1]!='-')
 								{
 									getContent(currentFigure, temp, i + 7, indexInTemp);
 								}
@@ -392,6 +395,7 @@ void menuOpened(const char* file)
 	else {
 		std::cout << "Could not open the file!\n Creating new file.." << std::endl;
 		std::ofstream out(file);
+		isNew = 1;
 	}
 	char userInput[256] = { 0 };
 	char firstWord[256] = { 0 };
@@ -430,18 +434,29 @@ void menuOpened(const char* file)
 			}
 			char filePath[256] = { 0 };
 			unsigned int filePathPosition = 0;
-			if (!strcmp(firstWord, "saveas"))
+			std::ofstream out;
+			if (isNew) {
+				out.open(file, std::ios::out|std::ios::app);
+				for (int i = 0; i < 5; i++)
+					out << firstRows[i] << "\n";
+				out << '\t' << "<desc>Created new file </desc> \n \n";
+			}
+			else
 			{
-				for (int i = firstWordIndex + 1; userInput[i] != ' '; ++i)
+				for (int i = firstWordIndex + 1; userInput[i] != ' '&&i<strlen(userInput); ++i)
 				{
 					filePath[filePathPosition] = userInput[i];
 					filePathPosition++;
 				}
-				std::ofstream out(filePath, std::ios::out);
-				for (int i = 0; i < 3; i++)
+				out.open(filePath, std::ios::out | std::ios::trunc);
+			}
+			if (!strcmp(firstWord, "saveas"))
+			{
+				for (int i = 0; i < numberOfLines; i++)
 				{
-					out << firstRows[i] << std::endl;
+					out << firstLines[i] << std::endl;
 				}
+				out << '\t' << "<desc>Saved to: "<< filePath<< "</desc> \n \n";
 				figures.exportToFile(out);
 				out.close();
 			}

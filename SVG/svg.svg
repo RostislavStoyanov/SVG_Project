@@ -1,0 +1,29 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE svg PUBLIC " -//W3C//DTD SVG 1.1//EN" 
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width = "40cm" height = "20cm" viewBox = "0 0 1200 700"
+xmlns = "http://www.w3.org/2000/svg" version = "1.1\>
+
+
+
+
+
+_Lock
+	<desc>Saved tosvg.svg</ desc> 
+ 
+	<rect x="9" y="19" width="1" height="42"
+		fill="none" stroke=black" stroke-width="1" />
+
+	<rect x="10" y="0" width="3" height="40"
+		fill="yellow" stroke=blue" stroke-width="3" />
+
+	<rect x="9" y="19" width="1" height="300"
+		fill="none" stroke=black" stroke-width="1" />
+
+	<line x1="0" y1="0" x2="100" y2="200"
+		fill="white" stroke=red" stroke-width="15" />
+
+	<line x1="200" y1="200" x2="200" y2="300"
+		fill="white" stroke=blue" stroke-width="3" />
+
+</svg>
