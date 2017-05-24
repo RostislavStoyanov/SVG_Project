@@ -386,6 +386,7 @@ void menuOpened(const char* file)
 				}
 				
 			}
+			input.close();
 		}
 	else {
 		std::cout << "Could not open the file!\n Creating new file.." << std::endl;
@@ -418,6 +419,7 @@ void menuOpened(const char* file)
 		}
 		if (firstWord[0] == 's'&&firstWord[1] == 'a'&&firstWord[2] == 'v'&&firstWord[3] == 'e')
 		{
+			input.open(file);
 			input.clear();
 			input.seekg(0, std::ios::beg);
 			char ** firstLines = new char*[numberOfLines];
@@ -428,6 +430,7 @@ void menuOpened(const char* file)
 				input.getline(currFileLine, 1024);
 				strcpy_s(firstLines[i], 1024, currFileLine);
 			}
+			input.close();
 			char filePath[256] = { 0 };
 			unsigned int filePathPosition = 0;
 			std::ofstream out;
@@ -444,33 +447,48 @@ void menuOpened(const char* file)
 					filePath[filePathPosition] = userInput[i];
 					filePathPosition++;
 				}
-				out.open(filePath, std::ios::out | std::ios::trunc);
 			}
 			if (!strcmp(firstWord, "saveas"))
 			{
+				std::ofstream os;
+				os.open(filePath, std::ios::out | std::ios::trunc);
 				for (int i = 0; i < numberOfLines; i++)
 				{
-					out << firstLines[i] << std::endl;
+					os << firstLines[i] << std::endl;
 				}
-				out << '\t' << "<desc>Saved to: "<< filePath<< "</desc> \n \n";
-				figures.exportToFile(out);
-				out.close();
+				os << '\t' << "<desc>Saved to: "<< filePath<< "</desc> \n \n";
+				figures.exportToFile(os);
+				os << "</svg>";
+				os << std::endl;
+				os.close();
 			}
-			if (!strcmp(firstWord, "save"))
+			else if (!strcmp(firstWord, "save"))
 			{
-				out.close();
-				out.open(file, std::ios::out | std::ios::trunc);
-				for (int i = 0; i < numberOfLines; i++)
+				if (isNew)
 				{
-					out << firstLines[i] << std::endl;
+					figures.exportToFile(out);
+					out << "</svg>";
+					out << std::endl;
 				}
-				out << '\t' << "<desc>Saved: " << file << "</desc> \n \n";
-				figures.exportToFile(out);
-				out.close();
+				else 
+				{
+					std::ofstream os;
+					os.open(file);
+					for (int i = 0; i < numberOfLines; i++)
+					{
+						os << firstLines[i] << std::endl;
+					}
+					os << '\t' << "<desc>Saved: " << file << "</desc> \n \n";
+					figures.exportToFile(os);
+					os << "</svg>";
+					os << std::endl;
+					os.close();
+				}
 			}
 			for (int i = 0; i < numberOfLines; i++)
 				delete[] firstLines[i];
 			delete[] firstLines;
+			out.close();
 		}
 		nulifyArray(userInput, 256);
 		nulifyArray(firstWord, 256);

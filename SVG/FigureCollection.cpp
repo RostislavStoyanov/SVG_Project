@@ -277,6 +277,4 @@ void FigureCollection::exportToFile(std::ofstream &out)
 	{
 		collection[i]->printToFile(out);
 	}
-	out << "</svg>";
-	out << std::endl;
 }
