@@ -35,7 +35,7 @@ void getContent(const char arr[], char temp[], const int startPostion, int &inde
 	return;
 }
 
-void searchFor(const char arr[], char buffer[], int& index, int& indexInBuff)
+void searchFor(const char arr[], char buffer[], int &index, int& indexInBuff)
 {
 	for (int j = index; arr[j] != '"'; ++j)
 	{
@@ -118,9 +118,9 @@ void menuOpened(const char* file)
 				{
 					if (checkForBlank(currentFigure)) 
 						continue;
-					char currFill[20] = { 0 };
-					char currStroke[20] = { 0 };
-					char figureType[30] = { 0 };
+					char currFill[256] = { 0 };
+					char currStroke[256] = { 0 };
+					char figureType[256] = { 0 };
 					int figureTypePosition = 0;
 					int currStrokeWidth=1, indexInTemp, indexInBuff;
 					for (int i = 0; line[i] != ' '; ++i)
@@ -142,16 +142,16 @@ void menuOpened(const char* file)
 						}
 					}
 					//stroke-width ,fill and stroke
-					nulifyArray(currStroke, 20);
-					nulifyArray(currFill, 20);
+					nulifyArray(currStroke,256);
+					nulifyArray(currFill, 256);
 					for (unsigned int i = 0; i < strlen(currentFigure); ++i)
 					{
 						switch (currentFigure[i])
 						{
 						case 'f':
 						{
-							char buffer[20] = { 0 };
-							char temp[20] = { 0 };
+							char buffer[256] = { 0 };
+							char temp[256] = { 0 };
 							indexInTemp = 0;
 							indexInBuff = 0;
 							int index = i;
@@ -160,15 +160,14 @@ void menuOpened(const char* file)
 							if (strcmp(buffer, checkForFill) == 0 )
 							{
 								getContent(currentFigure, temp, i + 6, indexInTemp);
+								strcpy_s(currFill, strlen(temp) + 1, temp);
 							}
-							else break;
-							strcpy_s(currFill, strlen(temp)+1, temp);
 							break;
 						}
 						case 's':
 						{
-							char buffer[20] = { 0 };
-							char temp[20] = { 0 };
+							char buffer[256] = { 0 };
+							char temp[256] = { 0 };
 							indexInTemp = 0;
 							indexInBuff = 0;
 							int index = i;
@@ -179,18 +178,16 @@ void menuOpened(const char* file)
 								if (strcmp(buffer, checkForStorkeWidth) == 0)
 								{
 									getContent(currentFigure, temp, i + 14, indexInTemp);
+									currStrokeWidth = std::atoi(temp);
 								}
-								else break;
-								currStrokeWidth = std::atoi(temp);
 								break;
 
 							}
 							else if (strcmp(buffer, checkForStroke) == 0 )
 							{
 								getContent(currentFigure, temp, i + 8, indexInTemp);
+								strcpy_s(currStroke, strlen(temp) + 1, temp);
 							}
-							else break;
-							strcpy_s(currStroke, strlen(temp)+1, temp);
 							break;
 						}
 						}
@@ -206,8 +203,8 @@ void menuOpened(const char* file)
 							switch (currentFigure[i])
 							{
 							case 'x': {
-								char buffer[20] = { 0 };
-								char temp[20] = { 0 };
+								char buffer[256] = { 0 };
+								char temp[256] = { 0 };
 								indexInTemp = 0;
 								indexInBuff = 0;
 								int index = i;
@@ -221,8 +218,8 @@ void menuOpened(const char* file)
 								break;
 							}
 							case 'y': {
-								char buffer[20] = { 0 };
-								char temp[20] = { 0 };
+								char buffer[256] = { 0 };
+								char temp[256] = { 0 };
 								indexInTemp = 0;
 								indexInBuff = 0;
 								int index = i;
@@ -238,8 +235,8 @@ void menuOpened(const char* file)
 							case 'w':
 							{
 								if (currWidth != -1) break;
-								char buffer[20] = { 0 };
-								char temp[20] = { 0 };
+								char buffer[256] = { 0 };
+								char temp[256] = { 0 };
 								indexInTemp = 0;
 								indexInBuff = 0;
 								int index = i;
@@ -248,15 +245,14 @@ void menuOpened(const char* file)
 								if (strcmp(buffer, checkForWidth) == 0 && currentFigure[index - 1]!='-')
 								{
 									getContent(currentFigure, temp, i + 7, indexInTemp);
+									currWidth = std::atof(temp);
 								}
-								else break;
-								currWidth = std::atof(temp);
 								break;
 							}
 							case 'h':
 							{
-								char buffer[20] = { 0 };
-								char temp[20] = { 0 };
+								char buffer[256] = { 0 };
+								char temp[256] = { 0 };
 								indexInTemp = 0;
 								indexInBuff = 0;
 								int index = i;
@@ -265,9 +261,8 @@ void menuOpened(const char* file)
 								if (strcmp(buffer, checkForHeight) == 0 )
 								{
 									getContent(currentFigure, temp, i + 8, indexInTemp);
+									currHeight = std::atof(temp);
 								}
-								else break;
-								currHeight = std::atof(temp);
 								break;
 							}
 							}
@@ -286,8 +281,8 @@ void menuOpened(const char* file)
 							{
 							case 'c':
 							{
-								char buffer[20] = { 0 };
-								char temp[20] = { 0 };
+								char buffer[256] = { 0 };
+								char temp[256] = { 0 };
 								indexInTemp = 0;
 								indexInBuff = 0;
 								int index = i;
@@ -303,22 +298,23 @@ void menuOpened(const char* file)
 									getContent(currentFigure, temp, i + 4, indexInTemp);
 									currCy = std::atof(temp);
 								}
-								else break;
 								break;
 							}
 							case 'r':
 							{
-								char buffer[20] = { 0 };
-								char temp[20] = { 0 };
+								char buffer[256] = { 0 };
+								char temp[256] = { 0 };
 								indexInTemp = 0;
 								indexInBuff = 0;
 								int index = i;
 								searchFor(currentFigure, buffer, index, indexInBuff);
 								buffer[indexInBuff] = currentFigure[index + 1];
-								if (strcmp(buffer, checkForR) == 0 )
+								if (strcmp(buffer, checkForR) == 0)
+								{
 									getContent(currentFigure, temp, i + 3, indexInTemp);
-								else break;
-								currR = std::atof(temp);
+									currR = std::atof(temp);
+
+								}
 								break;
 							}
 							}
@@ -336,8 +332,8 @@ void menuOpened(const char* file)
 							switch (currentFigure[i])
 							{
 							case 'x':
-							{	char buffer[20] = { 0 };
-							char temp[20] = { 0 };
+							{	char buffer[256] = { 0 };
+							char temp[256] = { 0 };
 							indexInTemp = 0;
 							indexInBuff = 0;
 							int index = i;
@@ -358,8 +354,8 @@ void menuOpened(const char* file)
 							}
 							case 'y':
 							{
-								char buffer[20] = { 0 };
-								char temp[20] = { 0 };
+								char buffer[256] = { 0 };
+								char temp[256] = { 0 };
 								indexInTemp = 0;
 								indexInBuff = 0;
 								int index = i;
@@ -375,7 +371,6 @@ void menuOpened(const char* file)
 									getContent(currentFigure, temp, i + 4, indexInTemp);
 									currY2 = std::atof(temp);
 								}
-								else break;
 								break;
 							}
 							}
@@ -400,6 +395,7 @@ void menuOpened(const char* file)
 	char userInput[256] = { 0 };
 	char firstWord[256] = { 0 };
 	int firstWordIndex = 0;
+	input.close();
 	while (true)
 	{
 		std::cin.getline(userInput, 256);
@@ -408,10 +404,10 @@ void menuOpened(const char* file)
 			firstWord[firstWordIndex] = userInput[i];
 			firstWordIndex++;
 		}
-		if (!strcmp(firstWord, "close")) break;
-		else if (!strcmp(firstWord, "print")) figures.printToConsole();
-		else if (!strcmp(firstWord, "create"))figures.createFromLine(userInput);
-		else if (!strcmp(firstWord, "erase"))
+		if (!strcmp(firstWord, "close")) return;
+		if (!strcmp(firstWord, "print")) figures.printToConsole();
+		if (!strcmp(firstWord, "create"))figures.createFromLine(userInput);
+		if (!strcmp(firstWord, "erase"))
 		{
 			if (userInput[firstWordIndex] == 0) figures.deleteEntry();
 			else
@@ -420,7 +416,7 @@ void menuOpened(const char* file)
 				figures.deleteEntry(id);
 			}
 		}
-		else if (firstWord[0] == 's'&&firstWord[1] == 'a'&&firstWord[2] == 'v'&&firstWord[3] == 'e')
+		if (firstWord[0] == 's'&&firstWord[1] == 'a'&&firstWord[2] == 'v'&&firstWord[3] == 'e')
 		{
 			input.clear();
 			input.seekg(0, std::ios::beg);
@@ -457,6 +453,18 @@ void menuOpened(const char* file)
 					out << firstLines[i] << std::endl;
 				}
 				out << '\t' << "<desc>Saved to: "<< filePath<< "</desc> \n \n";
+				figures.exportToFile(out);
+				out.close();
+			}
+			if (!strcmp(firstWord, "save"))
+			{
+				out.close();
+				out.open(file, std::ios::out | std::ios::trunc);
+				for (int i = 0; i < numberOfLines; i++)
+				{
+					out << firstLines[i] << std::endl;
+				}
+				out << '\t' << "<desc>Saved: " << file << "</desc> \n \n";
 				figures.exportToFile(out);
 				out.close();
 			}
