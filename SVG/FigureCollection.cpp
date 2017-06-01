@@ -271,6 +271,28 @@ void FigureCollection::deleteEntry(int id)
 	
 }
 
+void FigureCollection::translate(const int addX, const int addY, int id)
+{
+	if (id == -1)
+	{
+		for (unsigned int i = 0; i < numberOfEntries; i++)
+		{
+			collection[i]->translate(addX, addY);
+		}
+		std::cout << "Translated all figures" << std::endl;
+	}
+	else if (id<0 || id>maxEntries)
+	{
+		std::cerr << "No such entry" << std::endl;
+		return;
+	}
+	else
+	{
+		collection[id]->translate(addX, addY);
+		std::cout << "Translated figure at position " << id << std::endl;
+	}
+}
+
 void FigureCollection::exportToFile(std::ofstream &out)
 {
 	for (unsigned int i = 0; i < numberOfEntries; i++)

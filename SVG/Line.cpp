@@ -2,7 +2,7 @@
 
 Line::Line()
 {
-	Figure();
+	Figure::getInfo("white", "black", 1);
 	x1 = 0; y1 = 0;
 	x2 = 0; y2 = 0;
 }
@@ -29,6 +29,14 @@ void Line::printToFile(std::ofstream &out)
 	out <<'\t'<<"<line x1=\"" << x1 << "\" y1=\"" << y1 << "\" x2=\"" << x2 << "\" y2=\"" << y2 << "\"";
 	out << std::endl;
 	Figure::printToFile(out);
+}
+
+void Line::translate(const int addX1, const int addY1)
+{
+	x1 += addX1;
+	x2 += addX1;
+	y1 += addY1;
+	y2 += addY1;
 }
 
 

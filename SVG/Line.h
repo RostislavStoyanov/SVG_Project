@@ -14,5 +14,6 @@ public:
 	void print();
 
 	void printToFile(std::ofstream&);
+	void translate(const int, const int);
 };
 

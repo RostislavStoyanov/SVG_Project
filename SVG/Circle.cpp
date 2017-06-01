@@ -3,7 +3,7 @@
 
 Circle::Circle()
 {
-	Figure();
+	Figure::getInfo("white", "black", 1);
 	cx = 0; cy = 0;
 	r = 0;
 }
@@ -30,6 +30,12 @@ void Circle::printToFile(std::ofstream &out)
 	out << "\t" << "<circle cx=\"" << cx << "\" cy=\"" << cy << "\" r=\"" << r << "\"";
 	out << std::endl;
 	Figure::printToFile(out);
+}
+
+void Circle::translate(const int addX, const int addY)
+{
+	cx += addX;
+	cy += addY;
 }
 
 

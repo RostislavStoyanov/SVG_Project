@@ -17,5 +17,6 @@ public:
 	virtual void print();
 
 	virtual void printToFile(std::ofstream&);
+	virtual void translate(const int ,const int)=0;
 };
 

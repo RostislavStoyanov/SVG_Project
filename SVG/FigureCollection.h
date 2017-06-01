@@ -18,7 +18,9 @@ public:
 	void printToConsole() const;	
 	void createFromLine(char *);
 	void deleteEntry(int id =-1);
+	void translate(const int,const int,int id=-1);
 
 	void exportToFile(std::ofstream&);
+
 };
 

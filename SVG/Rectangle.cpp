@@ -4,7 +4,7 @@
 
 Rectangle::Rectangle()
 {
-	Figure();
+	Figure::getInfo("white", "black", 1);
 	x = 0; y = 0;
 	height = 0;
 	width = 0;
@@ -33,6 +33,12 @@ void Rectangle::printToFile( std::ofstream &out)
 	out << std::endl;
 	Figure::printToFile(out);
 	return;
+}
+
+void Rectangle::translate(const int addX, const int addY)
+{
+	x += addX;
+	y += addY;
 }
 
 

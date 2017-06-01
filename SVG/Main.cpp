@@ -35,6 +35,17 @@ void getContent(const char arr[], char temp[], const int startPostion, int &inde
 	return;
 }
 
+
+void getSpace (const char arr[], char temp[], const int startPostion, int &indexInTemp)
+{
+	for (int j = startPostion; arr[j] != ' '; ++j)
+	{
+		temp[indexInTemp] = arr[j];
+		indexInTemp++;
+		if (arr[j + 1] == 0) break;
+	}
+	return;
+}
 void searchFor(const char arr[], char buffer[], int &index, int& indexInBuff)
 {
 	for (int j = index; arr[j] != '"'; ++j)
@@ -405,8 +416,8 @@ void menuOpened(const char* file)
 			firstWord[firstWordIndex] = userInput[i];
 			firstWordIndex++;
 		}
-		if (!strcmp(firstWord, "close")) return;
-		if (!strcmp(firstWord, "print")) figures.printToConsole();
+		if (!strcmp(userInput, "close")) return;
+		if (!strcmp(userInput, "print")) figures.printToConsole();
 		if (!strcmp(firstWord, "create"))figures.createFromLine(userInput);
 		if (!strcmp(firstWord, "erase"))
 		{
@@ -490,6 +501,82 @@ void menuOpened(const char* file)
 			delete[] firstLines;
 			out.close();
 		}
+		if (!strcmp(firstWord, "translate"))
+		{
+			int addX=0, addY=0;
+			int id,tempIndex=0;
+			char temp[256] = { 0 };
+			char word[128] = { 0 };
+			char number[50] = { 0 };
+			int wordIndex = 0, numberIndex = 0;
+			getContent(userInput, temp, firstWordIndex + 1, tempIndex);
+			if (temp[0] >= '0'&&temp[0] <= '9')
+			{
+				getSpace(temp, number, 0, numberIndex);
+				id = atoi(number);
+			}
+			else id = -1;
+			int newIndex = firstWordIndex + strlen(number)+1;
+			nulifyArray(temp, 256);
+			nulifyArray(number, 50);
+			numberIndex = 0;
+			tempIndex = 0;
+			getSpace(userInput, temp, newIndex, tempIndex);
+			for (int i = 0; i < strlen(temp); i++)
+			{
+				if (temp[i] != '=')
+				{
+					word[wordIndex] = temp[i];
+					wordIndex++;
+				}
+				else
+				{
+					wordIndex++;
+					break;
+				}
+			}
+				if (strcmp(word, "horizontal") && strcmp(word, "vertrical")) std::cerr << "Invalid input" << std::endl;
+				else
+				{
+					getSpace(temp, number, wordIndex,numberIndex);
+					if (!strcmp(word, "horizontal"))
+						addX = atoi(number);
+					if (!strcmp(word, "vertical"))
+						addY = atoi(number);
+				}
+				newIndex += strlen(temp) + 1;
+				nulifyArray(temp, 256);
+				nulifyArray(word, 128);
+				nulifyArray(number, 50);
+				numberIndex = 0;
+				wordIndex = 0;
+				tempIndex = 0;
+				getSpace(userInput, temp, newIndex, tempIndex);
+				for (int i = 0; i < strlen(temp); i++)
+				{
+					if (temp[i] != '=')
+					{
+						word[wordIndex] = temp[i];
+						wordIndex++;
+					}
+					else
+					{
+						wordIndex++;
+						break;
+					}
+				}
+				if (strcmp(word, "horizontal") && strcmp(word, "vertical")) std::cerr << "Invalid input" << std::endl;
+				else
+				{
+					getSpace(temp, number, wordIndex, numberIndex);
+					if (!strcmp(word, "horizontal"))
+						addX = atoi(number);
+					if (!strcmp(word, "vertical"))
+						addY = atoi(number);
+				}
+				figures.translate(addX, addY, id);
+		}
+
 		nulifyArray(userInput, 256);
 		nulifyArray(firstWord, 256);
 		firstWordIndex = 0;
