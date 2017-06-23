@@ -2,6 +2,9 @@
 #include<iostream>
 #include<cstring>
 #include<fstream>
+
+const double eps = 1e-5;
+
 class Figure
 {
 protected:
@@ -9,6 +12,7 @@ protected:
 	char *stroke;
 	unsigned int strokeWidth;
 	void setValue(char*& p, const char* value);
+	bool pointInsideRectangle(const double, const double, const double, const double, const double, const double);
 public:
 	Figure();
 	~Figure();
@@ -17,6 +21,7 @@ public:
 	virtual void print();
 
 	virtual void printToFile(std::ofstream&);
-	virtual void translate(const int ,const int)=0;
+	virtual void translate(const double ,const double)=0;
+	virtual bool withinRectangle(const double,const double,const double,const double) = 0;
 };
 

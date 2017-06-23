@@ -35,10 +35,15 @@ void Rectangle::printToFile( std::ofstream &out)
 	return;
 }
 
-void Rectangle::translate(const int addX, const int addY)
+void Rectangle::translate(const double addX, const double addY)
 {
 	x += addX;
 	y += addY;
+}
+
+bool Rectangle::withinRectangle(const double, const double, const double, const double)
+{
+	return false;	
 }
 
 

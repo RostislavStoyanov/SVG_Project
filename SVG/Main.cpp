@@ -36,9 +36,9 @@ void getContent(const char arr[], char temp[], const int startPostion, int &inde
 }
 
 
-void getSpace (const char arr[], char temp[], const int startPostion, int &indexInTemp)
+void getSpace (const char arr[], char temp[], const size_t startPostion, int &indexInTemp)
 {
-	for (int j = startPostion; arr[j] != ' '; ++j)
+	for (size_t j = startPostion; arr[j] != ' '; ++j)
 	{
 		temp[indexInTemp] = arr[j];
 		indexInTemp++;
@@ -516,7 +516,7 @@ void menuOpened(const char* file)
 				id = atoi(number);
 			}
 			else id = -1;
-			int newIndex = firstWordIndex + strlen(number)+1;
+			size_t newIndex = firstWordIndex + strlen(number)+1;
 			nulifyArray(temp, 256);
 			nulifyArray(number, 50);
 			numberIndex = 0;
@@ -576,6 +576,34 @@ void menuOpened(const char* file)
 				}
 				figures.translate(addX, addY, id);
 		}
+		if (!strcmp(firstWord, "within"))
+		{
+			size_t sizeOfWithinFigure = strlen(userInput - strlen(firstWord)) + 1;
+			char* withinFigure = new char[sizeOfWithinFigure];
+			nulifyArray(withinFigure, sizeOfWithinFigure);
+			int wordIndex = firstWordIndex+1, withinIndex = 0;
+			getSpace(userInput, withinFigure, wordIndex, withinIndex);
+			if (!strcmp(withinFigure, "rectangle"))
+			{
+				double currentVariables[4] = { 0 };
+				size_t tempIndex = wordIndex + strlen(withinFigure);
+				int currentIndex = 0;
+				size_t tempLen = sizeOfWithinFigure - strlen(withinFigure);
+				char* temp = new char[tempLen];
+				nulifyArray(temp, tempLen);
+				for (int i = 0; i < 4; i++)
+				{
+					tempIndex += (strlen(temp) + 1);
+					nulifyArray(temp, tempLen);
+					getSpace(userInput, temp, tempIndex, currentIndex);
+					currentVariables[i] = std::atof(temp);
+					currentIndex = 0;
+				}
+				delete[] temp;
+			}
+			delete[] withinFigure;
+		}
+
 
 		nulifyArray(userInput, 256);
 		nulifyArray(firstWord, 256);

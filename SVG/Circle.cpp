@@ -32,10 +32,15 @@ void Circle::printToFile(std::ofstream &out)
 	Figure::printToFile(out);
 }
 
-void Circle::translate(const int addX, const int addY)
+void Circle::translate(const double addX, const double addY)
 {
 	cx += addX;
 	cy += addY;
+}
+
+bool Circle::withinRectangle(const double, const double, const double, const double)
+{
+	return false;
 }
 
 

@@ -31,12 +31,20 @@ void Line::printToFile(std::ofstream &out)
 	Figure::printToFile(out);
 }
 
-void Line::translate(const int addX1, const int addY1)
+void Line::translate(const double addX1, const double addY1)
 {
 	x1 += addX1;
 	x2 += addX1;
 	y1 += addY1;
 	y2 += addY1;
+}
+
+bool Line::withinRectangle(const double x, const double y, const double width, const double height)
+{
+	
+	if (pointInsideRectangle(x1, y1, x, y, width, height) && pointInsideRectangle(x2, y2, x, y, width, height)) 
+		return true;
+	return false;
 }
 
 
