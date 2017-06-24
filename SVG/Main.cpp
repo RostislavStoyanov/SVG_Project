@@ -599,6 +599,7 @@ void menuOpened(const char* file)
 					currentVariables[i] = std::atof(temp);
 					currentIndex = 0;
 				}
+				figures.withinRectangle(temp[0], temp[1], temp[2], temp[3]);
 				delete[] temp;
 			}
 			delete[] withinFigure;

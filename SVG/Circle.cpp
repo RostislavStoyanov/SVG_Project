@@ -38,9 +38,19 @@ void Circle::translate(const double addX, const double addY)
 	cy += addY;
 }
 
-bool Circle::withinRectangle(const double, const double, const double, const double)
+bool Circle::withinRectangle(const double rectX, const double rectY, const double rectWidth, const double rectHeight)
 {
-	return false;
+	if (!pointInsideRectangle(cx, cy, rectX, rectY, rectWidth, rectHeight))
+		return false;
+	if (!pointInsideRectangle(cx+r, cy, rectX, rectY, rectWidth, rectHeight))
+		return false;
+	if (!pointInsideRectangle(cx, cy+r, rectX, rectY, rectWidth, rectHeight))
+		return false;
+	if (!pointInsideRectangle(cx-r, cy, rectX, rectY, rectWidth, rectHeight))
+		return false;
+	if (!pointInsideRectangle(cx, cy-r, rectX, rectY, rectWidth, rectHeight))
+		return false;
+	return true;
 }
 
 

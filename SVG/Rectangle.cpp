@@ -41,8 +41,10 @@ void Rectangle::translate(const double addX, const double addY)
 	y += addY;
 }
 
-bool Rectangle::withinRectangle(const double, const double, const double, const double)
+bool Rectangle::withinRectangle(const double rectX, const double rectY, const double rectWidth, const double rectHeight)
 {
+	if ((pointInsideRectangle(x, y, rectX, rectY, rectWidth, rectHeight)) && pointInsideRectangle((x + width), (y + height), rectX, rectY, rectWidth, rectHeight))
+		return true;
 	return false;	
 }
 

@@ -300,3 +300,13 @@ void FigureCollection::exportToFile(std::ofstream &out)
 		collection[i]->printToFile(out);
 	}
 }
+
+void FigureCollection::withinRectangle(const double rectX, const double rectY, const double rectWidth, const double rectHeight) const 
+{
+	for (unsigned int i = 0; i < numberOfEntries; i++)
+	{
+		if (collection[i]->withinRectangle(rectX, rectY, rectWidth, rectHeight))
+			collection[i]->print();
+	}
+	return;
+}

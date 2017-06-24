@@ -21,6 +21,6 @@ public:
 	void translate(const int,const int,int id=-1);
 
 	void exportToFile(std::ofstream&);
-
+	void withinRectangle(const double, const double, const double, const double) const;
 };
 

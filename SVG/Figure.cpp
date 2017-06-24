@@ -17,7 +17,7 @@ void Figure::setValue(char *& p, const char * value)
 
 bool Figure::pointInsideRectangle(const double x, const double y, const double rectX, const double rectY, const double rectWidth, const double rectHeight)
 {
-	if ((x > (rectX + eps + strokeWidth / 2) && x < (rectX + rectWidth - eps - strokeWidth / 2)) && (y > rectY + eps + strokeWidth / 2 && y < (rectY + rectHeight - eps - strokeWidth))) return true;
+	if ((x > (rectX + eps) && x < (rectX + rectWidth - eps)) && (y > rectY + eps && y < (rectY + rectHeight - eps))) return true;
 	return false;
 }
 
