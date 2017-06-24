@@ -53,5 +53,10 @@ bool Circle::withinRectangle(const double rectX, const double rectY, const doubl
 	return true;
 }
 
+bool Circle::withinCircle(const double, const double, const double)
+{
+	return false;
+}
+
 
 

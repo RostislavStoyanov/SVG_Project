@@ -47,4 +47,11 @@ bool Line::withinRectangle(const double x, const double y, const double width, c
 	return false;
 }
 
+bool Line::withinCircle(const double cx, const double cy, const double r)
+{
+	if (pointInsideCircle(x1, y1, cx, cy, r) && (pointInsideCircle(x2, y2, cx, cy, r)))
+		return true;
+	return false;
+}
+
 

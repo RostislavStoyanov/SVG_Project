@@ -15,6 +15,8 @@ public:
 
 	void printToFile(std::ofstream&);
 	void translate(const double, const double);
+	
 	bool withinRectangle(const double, const double, const double, const double);
+	bool withinCircle(const double, const double, const double);
 };
 

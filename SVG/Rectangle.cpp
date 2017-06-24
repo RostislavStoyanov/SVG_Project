@@ -43,9 +43,18 @@ void Rectangle::translate(const double addX, const double addY)
 
 bool Rectangle::withinRectangle(const double rectX, const double rectY, const double rectWidth, const double rectHeight)
 {
-	if ((pointInsideRectangle(x, y, rectX, rectY, rectWidth, rectHeight)) && pointInsideRectangle((x + width), (y + height), rectX, rectY, rectWidth, rectHeight))
+	if ((pointInsideRectangle(x, y, rectX, rectY, rectWidth, rectHeight)) && pointInsideRectangle((x + width), (y + height), rectX, rectY, rectWidth, rectHeight)
+		&& pointInsideRectangle(x + width, y, rectX, rectY, rectWidth, rectHeight) && pointInsideRectangle(x, y + height, rectX, rectY,rectWidth, rectHeight))
 		return true;
 	return false;	
+}
+
+bool Rectangle::withinCircle(const double cx, const double cy, const double r)
+{
+	if (pointInsideCircle(x, y, cx, cy, r) && pointInsideCircle(x + width, y + height, cx, cy, r) &&
+		pointInsideCircle(x + width, y, cx, cy, r) && pointInsideCircle(x, y + height, cx, cy, r))
+		return true;
+	return false;
 }
 
 

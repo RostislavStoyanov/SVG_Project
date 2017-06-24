@@ -21,6 +21,13 @@ bool Figure::pointInsideRectangle(const double x, const double y, const double r
 	return false;
 }
 
+bool Figure::pointInsideCircle(const double x,const double y,const double cx, const double cy, const double r)
+{
+	if (((x - cx) *(x-cx)) + ((y - cy)*(y-cy)) < r - eps) 
+		return true;
+	else return false;
+}
+
 Figure::Figure()
 {
 	fill = NULL;

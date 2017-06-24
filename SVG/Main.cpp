@@ -583,12 +583,12 @@ void menuOpened(const char* file)
 			nulifyArray(withinFigure, sizeOfWithinFigure);
 			int wordIndex = firstWordIndex+1, withinIndex = 0;
 			getSpace(userInput, withinFigure, wordIndex, withinIndex);
+			size_t tempIndex = wordIndex + strlen(withinFigure);
+			size_t tempLen = sizeOfWithinFigure - strlen(withinFigure);
+			int currentIndex = 0;
 			if (!strcmp(withinFigure, "rectangle"))
 			{
 				double currentVariables[4] = { 0 };
-				size_t tempIndex = wordIndex + strlen(withinFigure);
-				int currentIndex = 0;
-				size_t tempLen = sizeOfWithinFigure - strlen(withinFigure);
 				char* temp = new char[tempLen];
 				nulifyArray(temp, tempLen);
 				for (int i = 0; i < 4; i++)
@@ -600,6 +600,21 @@ void menuOpened(const char* file)
 					currentIndex = 0;
 				}
 				figures.withinRectangle(temp[0], temp[1], temp[2], temp[3]);
+				delete[] temp;
+			}
+			if (!strcmp(withinFigure, "circle"))
+			{
+				double currentVariables[3] = { 0 };
+				char* temp = new char[tempLen];
+				nulifyArray(temp, tempLen);
+				for (int i = 0; i < 3; i++)
+				{
+					tempIndex += (strlen(temp) + 1);
+					nulifyArray(temp, tempLen);
+					getSpace(userInput, temp, tempIndex, currentIndex);
+					currentVariables[i] = std::atof(temp);
+					currentIndex = 0;
+				}
 				delete[] temp;
 			}
 			delete[] withinFigure;
