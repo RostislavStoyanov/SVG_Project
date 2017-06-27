@@ -7,6 +7,12 @@ Line::Line()
 	x2 = 0; y2 = 0;
 }
 
+Line::~Line()
+{
+	delete[] stroke;
+	delete[] fill;
+}
+
 void Line::getInfo(const char *fill, const char *stroke, const unsigned int strokeWidth, const double x1, const double y1, const double x2, const double y2)
 {
 	Figure::getInfo(fill, stroke, strokeWidth);

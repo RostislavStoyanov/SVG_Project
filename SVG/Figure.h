@@ -2,8 +2,8 @@
 #include<iostream>
 #include<cstring>
 #include<fstream>
-
-const double eps = 1e-5;
+#include<cmath>
+const double eps = 1e-20;
 
 class Figure
 {
@@ -16,7 +16,7 @@ protected:
 	bool pointInsideCircle(const double,const double ,const double, const double, const double);
 public:
 	Figure();
-	~Figure();
+	virtual ~Figure();
 
 	void getInfo(const char*,const char*,const unsigned int);
 	virtual void print();

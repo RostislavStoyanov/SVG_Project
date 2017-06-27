@@ -10,6 +10,12 @@ Rectangle::Rectangle()
 	width = 0;
 }
 
+Rectangle::~Rectangle()
+{
+	delete[] fill;
+	delete[] stroke;
+}
+
 void Rectangle::getInfo(const char *fill, const char *stroke, const unsigned int strokeWidth, double x , double y, double width, double height)
 {
 	Figure::getInfo(fill, stroke, strokeWidth);

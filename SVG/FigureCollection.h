@@ -15,12 +15,16 @@ public:
 	~FigureCollection();
 
 	void addEntry(Figure*);
-	void printToConsole() const;	
+		
 	void createFromLine(char *);
 	void deleteEntry(int id =-1);
+	
 	void translate(const int,const int,int id=-1);
+	
+	void printToConsole() const;
+	void exportToFile(std::ofstream&) const;
 
-	void exportToFile(std::ofstream&);
 	void withinRectangle(const double, const double, const double, const double) const;
+	void withinCircle(const double, const double, const double) const;
 };
 

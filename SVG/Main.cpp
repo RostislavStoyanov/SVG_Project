@@ -18,9 +18,9 @@ const char firstRows[5][100] =
 {
 	"<?xml version=\"1.0\" standalone=\"no\"?>",
 	"<!DOCTYPE svg PUBLIC \" -//W3C//DTD SVG 1.1//EN\" ",
-	" \"http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd\">",
+	"  \"http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd\">",
 	"<svg width = \"40cm\" height = \"20cm\" viewBox = \"0 0 1200 700\"",
-	"\t xmlns = \"http://www.w3.org/2000/svg\" version = \"1.1>",
+	"\t xmlns = \"http://www.w3.org/2000/svg\" version = \"1.1\">",
 };
 
 
@@ -472,6 +472,7 @@ void menuOpened(const char* file)
 				os << "</svg>";
 				os << std::endl;
 				os.close();
+				std::cout << "Successfully saved new file: " << filePath << std::endl;
 			}
 			else if (!strcmp(firstWord, "save"))
 			{
@@ -495,6 +496,7 @@ void menuOpened(const char* file)
 					os << std::endl;
 					os.close();
 				}
+				std::cout << "Successfully saved  file: " << file << std::endl;
 			}
 			for (int i = 0; i < numberOfLines; i++)
 				delete[] firstLines[i];
@@ -599,7 +601,7 @@ void menuOpened(const char* file)
 					currentVariables[i] = std::atof(temp);
 					currentIndex = 0;
 				}
-				figures.withinRectangle(temp[0], temp[1], temp[2], temp[3]);
+				figures.withinRectangle(currentVariables[0], currentVariables[1], currentVariables[2], currentVariables[3]);
 				delete[] temp;
 			}
 			if (!strcmp(withinFigure, "circle"))
@@ -615,6 +617,7 @@ void menuOpened(const char* file)
 					currentVariables[i] = std::atof(temp);
 					currentIndex = 0;
 				}
+				figures.withinCircle(currentVariables[0], currentVariables[1], currentVariables[2]);
 				delete[] temp;
 			}
 			delete[] withinFigure;
@@ -635,7 +638,10 @@ void menu()
 		unsigned int nameCounter = 0;
 		std::cin.getline(userInput, 256);
 		if (!strcmp(userInput, "exit"))
+		{
+			std::cout << "Exiting" << std::endl;
 			return;
+		}
 		size_t inputLen = strlen(userInput);
 		if (userInput[0] == 'o' && userInput[1] == 'p' && userInput[2] == 'e'&&userInput[3] == 'n'&&userInput[4]!=0)
 		{

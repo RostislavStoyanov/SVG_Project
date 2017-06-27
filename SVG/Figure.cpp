@@ -17,7 +17,9 @@ void Figure::setValue(char *& p, const char * value)
 
 bool Figure::pointInsideRectangle(const double x, const double y, const double rectX, const double rectY, const double rectWidth, const double rectHeight)
 {
-	if ((x > (rectX + eps) && x < (rectX + rectWidth - eps)) && (y > rectY + eps && y < (rectY + rectHeight - eps))) return true;
+
+	if (((x >= (rectX + eps) && x <= (rectX + rectWidth - eps))) && (y >= (rectY + eps) && y <= (rectY + rectHeight - eps)))
+		return true;
 	return false;
 }
 
@@ -25,7 +27,7 @@ bool Figure::pointInsideCircle(const double x,const double y,const double cx, co
 {
 	if (((x - cx) *(x-cx)) + ((y - cy)*(y-cy)) < r - eps) 
 		return true;
-	else return false;
+	return false;
 }
 
 Figure::Figure()

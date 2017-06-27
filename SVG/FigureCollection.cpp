@@ -133,8 +133,9 @@ void FigureCollection::createFromLine(char *line)
 		nulifyArrayF(temp, 256);
 		indexInTemp = 0;
 		Rectangle* rect = new Rectangle;
-		rect->getInfo(currFill, currStroke, currStrokeWidth, currX, currY, currWidth, currHeight);
+		rect->getInfo(currFill, currStroke, currStrokeWidth, std::fabs(currX), std::fabs (currY), std::fabs(currWidth), std::fabs(currHeight));
 		this->addEntry(rect);
+		std::cout << "Successfully created rectangle id: " << numberOfEntries << std::endl;
 		break;
 	}
 	case 2:
@@ -178,8 +179,9 @@ void FigureCollection::createFromLine(char *line)
 		nulifyArrayF(temp, 256);
 		indexInTemp = 0;
 		Circle* circ = new Circle;
-		circ->getInfo(currFill, currStroke, currStrokeWidth, currX, currY, currR);
+		circ->getInfo(currFill, currStroke, currStrokeWidth, std::fabs(currX), std::fabs(currY), std::fabs(currR));
 		this->addEntry(circ);
+		std::cout << "Successfully created circle id: " << numberOfEntries << std::endl;
 		break;
 	}
 	case 3:
@@ -229,8 +231,9 @@ void FigureCollection::createFromLine(char *line)
 		nulifyArrayF(temp, 256);
 		indexInTemp = 0;
 		Line* line = new Line;
-		line->getInfo(currFill, currStroke, currStrokeWidth, currX1, currY1, currX2,currY2);
+		line->getInfo(currFill, currStroke, currStrokeWidth, std::fabs(currX1), std::fabs(currY1), std::fabs(currX2),std::fabs(currY2));
 		this->addEntry(line);
+		std::cout << "Successfully created line id: " << numberOfEntries << std::endl;
 		break;
 	}
 	default:
@@ -289,11 +292,11 @@ void FigureCollection::translate(const int addX, const int addY, int id)
 	else
 	{
 		collection[id]->translate(addX, addY);
-		std::cout << "Translated figure at position " << id << std::endl;
+		std::cout << "Translated figure at position: " << id << std::endl;
 	}
 }
 
-void FigureCollection::exportToFile(std::ofstream &out)
+void FigureCollection::exportToFile(std::ofstream &out) const 
 {
 	for (unsigned int i = 0; i < numberOfEntries; i++)
 	{
@@ -303,10 +306,27 @@ void FigureCollection::exportToFile(std::ofstream &out)
 
 void FigureCollection::withinRectangle(const double rectX, const double rectY, const double rectWidth, const double rectHeight) const 
 {
+	int count = 0;
 	for (unsigned int i = 0; i < numberOfEntries; i++)
 	{
 		if (collection[i]->withinRectangle(rectX, rectY, rectWidth, rectHeight))
+		{
+			collection[i]->print();
+			count++;
+		}
+	}
+	if (count == 0) std::cout << "No figures inside the figure!" << std::endl;
+	return;
+}
+
+void FigureCollection::withinCircle(const double circX, const double circY, const double circR) const
+{
+	int count = 0;
+	for (unsigned int i = 0; i < numberOfEntries; i++)
+		if (collection[i]->withinCircle(circX,circY,circR))
+		{
 			collection[i]->print();
 	}
+	if (count == 0) std::cout << "No figures inside the figure!" << std::endl;
 	return;
 }

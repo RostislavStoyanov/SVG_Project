@@ -8,6 +8,12 @@ Circle::Circle()
 	r = 0;
 }
 
+Circle::~Circle()
+{
+	delete[] fill;
+	delete[] stroke;
+}
+
 void Circle::getInfo(const char *fill, const char *stroke, const unsigned int strokeWidth, double cx, double cy, double r)
 {
 	Figure::getInfo(fill, stroke, strokeWidth);
@@ -42,19 +48,24 @@ bool Circle::withinRectangle(const double rectX, const double rectY, const doubl
 {
 	if (!pointInsideRectangle(cx, cy, rectX, rectY, rectWidth, rectHeight))
 		return false;
-	if (!pointInsideRectangle(cx+r, cy, rectX, rectY, rectWidth, rectHeight))
+	if (!pointInsideRectangle((cx+r), cy, rectX, rectY, rectWidth, rectHeight))
 		return false;
 	if (!pointInsideRectangle(cx, cy+r, rectX, rectY, rectWidth, rectHeight))
 		return false;
-	if (!pointInsideRectangle(cx-r, cy, rectX, rectY, rectWidth, rectHeight))
+	if (!pointInsideRectangle((cx-r), cy, rectX, rectY, rectWidth, rectHeight))
 		return false;
-	if (!pointInsideRectangle(cx, cy-r, rectX, rectY, rectWidth, rectHeight))
+	if (!pointInsideRectangle(cx, (cy-r), rectX, rectY, rectWidth, rectHeight))
 		return false;
 	return true;
 }
 
-bool Circle::withinCircle(const double, const double, const double)
-{
+bool Circle::withinCircle(const double circX, const double circY, const double circR)
+{	
+	double distX = (cx - circX)*(cx - circX);
+	double distY = (cy - circY)*(cy - circY);
+	double distanceCenters = sqrt(distX - distY);
+	if (distanceCenters <= std::fabs(r - circR))
+		return true;
 	return false;
 }
 
