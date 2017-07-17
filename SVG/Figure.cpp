@@ -1,20 +1,5 @@
 #include "Figure.h"
 
-void Figure::setValue(char *& p, const char * value)
-{
-	try {
-		size_t valueSize = strlen(value) + 1;
-		char* newValue = new char[valueSize];
-		delete[] p;
-		p = newValue;
-		strcpy_s(p, valueSize, value);
-	}
-	catch (std::bad_alloc&)
-	{
-		std::cerr << "Not enough memory!" << std::endl;
-	}
-}
-
 bool Figure::pointInsideRectangle(const double x, const double y, const double rectX, const double rectY, const double rectWidth, const double rectHeight)
 {
 
@@ -32,36 +17,90 @@ bool Figure::pointInsideCircle(const double x,const double y,const double cx, co
 
 Figure::Figure()
 {
-	fill = NULL;
-	stroke = NULL;
-	strokeWidth = 0;
+	try {
+		fill = "white";
+	}
+	catch (std::bad_alloc&)
+	{
+		std::cout << "Not enough memory" << std::endl;
+		throw;
+	}
+	stroke = "black";
+	strokeWidth = 1;
 }
 
 Figure::~Figure()
 {
-	delete[] fill;
-	delete[] stroke;
+
+}
+
+Figure::Figure(const char * newFill, const char *newStroke, const unsigned int newStrokeWidth) : fill("white"),
+																								stroke("black"),
+																								strokeWidth(1)
+{
+	try {
+		fill = newFill;
+	}
+	catch (std::bad_alloc&)
+	{
+		std::cout << "Not enough memory" << std::endl;
+		throw;
+	}
+	stroke = newStroke;
+	strokeWidth = newStrokeWidth;
+		
+}
+
+Figure::Figure(const String &nFill, const String &nStroke, const unsigned int nStrokeWidth) :fill("white"),
+																							stroke("black"),
+																							strokeWidth(1)
+{
+	try {
+		fill = nFill;
+	}
+	catch (std::bad_alloc&)
+	{
+		std::cout << "Not enough memory" << std::endl;
+		throw;
+	}
+	stroke = nStroke;
+	strokeWidth = nStrokeWidth;
 }
 
 void Figure::getInfo(const char *nFill, const char *nStroke, const unsigned int nStrokeWidth)
 {
-	if (nStrokeWidth == 0) strokeWidth = 1;
-	else this->strokeWidth = nStrokeWidth;
-	if (nStroke[0] == 0)
-		setValue(stroke,"black");
-	else setValue(stroke, nStroke);
-	if (nFill[0] == 0)
-		setValue(fill, "white");
-	else setValue(fill,nFill);
+	fill = nFill;
+	stroke = nStroke;
+	strokeWidth = nStrokeWidth;
 }
 
-void Figure::print()
+void Figure::getInfo(const String & nFill, const String &nStroke, const unsigned int nStrokeWidth)
 {
-	if (fill&&stroke) {
-		std::cout << this->fill << std::endl;
-		std::cout << this->stroke << std::endl;
-	}
-	std::cout << this->strokeWidth << std::endl;
+	fill = nFill;
+	stroke = nStroke;
+	strokeWidth = nStrokeWidth;
+}
+
+String Figure::getFill() const
+{
+	String toRet(fill);
+	return toRet;
+}
+
+String Figure::getStroke() const
+{
+	String toRet(stroke);
+	return toRet;
+}
+
+unsigned int Figure::getStrokeWidth() const
+{
+	return strokeWidth;
+}
+
+void Figure::print() const
+{
+	std::cout << "Fill: " << fill << " Stroke: " << stroke << " Stroke-width: " << strokeWidth << std::endl;
 }
 
 void Figure::printToFile(std::ofstream &out)
