@@ -157,6 +157,20 @@ String String::substr(size_t pos, size_t len)
 	return newStr;
 }
 
+String String::substrDelim(size_t pos, char delim)
+{
+	String newStr;
+	char currentSymbol;
+	for (size_t i = pos; i < currentSize; i++)
+	{
+		currentSymbol = data[i];
+		if (currentSymbol == delim)
+			break;
+		else newStr.addChar(currentSymbol);
+	}
+	return newStr;
+}
+
 String & String::operator+=(const String &other)
 {
 	for (size_t i = 0; i < other.currentSize; i++)
@@ -190,6 +204,30 @@ char & String::operator[](size_t pos)
 const char & String::operator[](size_t pos) const
 {
 	return data[pos];
+}
+
+bool String::operator==(const String &other)
+{
+	if (other.currentSize != currentSize)
+		return false;
+	for (size_t i = 0; i < currentSize; i++)
+	{
+		if (other.data[i] != data[i])
+			return false;
+	}
+	return true;
+}
+
+bool String::operator==(const char *other)
+{
+	if(currentSize != strlen(other))
+		return false;
+	for (size_t i = 0; i < currentSize; i++)
+	{
+		if (data[i] != other[i])
+			return false;
+	}
+	return true;
 }
 
 std::istream & operator>>(std::istream &is, String &str)

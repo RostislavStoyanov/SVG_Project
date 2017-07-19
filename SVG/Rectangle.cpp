@@ -2,34 +2,87 @@
 
 
 
-Rectangle::Rectangle()
+Rectangle::Rectangle() :height(0), width(0),
+						x(0),y(0),Figure()
 {
-	Figure::getInfo("white", "black", 1);
-	x = 0; y = 0;
-	height = 0;
-	width = 0;
 }
 
-Rectangle::~Rectangle()
+Rectangle::Rectangle(const String &nFill, const String &nStroke, const unsigned int nStrokeWidth, double nX, double nY, double nWidth, double nHeight):
+																											x(nX),y(nY),height(nHeight),width(nWidth),
+																											Figure(nFill,nStroke,nStrokeWidth)
 {
-	delete[] fill;
-	delete[] stroke;
 }
 
-void Rectangle::getInfo(const char *fill, const char *stroke, const unsigned int strokeWidth, double x , double y, double width, double height)
+Rectangle::Rectangle(const char *nFill, const char *nStroke, const unsigned int nStrokeWidth, double nX, double nY, double nWidth, double nHeight):
+																									x(nX), y(nY), height(nHeight), width(nWidth),
+																									Figure(nFill, nStroke, nStrokeWidth)
 {
-	Figure::getInfo(fill, stroke, strokeWidth);
-	this->x = x;
-	this->y = y;
-	this->width = width;
-	this->height = height;
+}
+
+
+void Rectangle::getInfo(const char *nFill, const char *nStroke, const unsigned int nStrokeWidth, double nX, double nY, double nWidth, double nHeight)
+{
+	Figure::getInfo(nFill, nStroke, nStrokeWidth);
+	x=nX;
+	y=nY;
+	width = nWidth;
+	height = nHeight;
+}
+
+void Rectangle::getInfo(const String &nFill, const String &nStroke, const unsigned int nStrokeWidth, double nX, double nY, double nWidth, double nHeight)
+{
+	Figure::getInfo(nFill, nStroke, nStrokeWidth);
+	x = nX;
+	y = nY;
+	width = nWidth;
+	height = nHeight;
+}
+
+double Rectangle::getX() const
+{
+	return x;
+}
+
+double Rectangle::getY() const
+{
+	return y;
+}
+
+double Rectangle::getWidth() const
+{
+	return width;
+}
+
+double Rectangle::getHeight() const
+{
+	return height;
+}
+
+void Rectangle::setX(const double nX)
+{
+	x = nX;
+}
+
+void Rectangle::setY(const double nY)
+{
+	y = nY;
+}
+
+void Rectangle::setWidth(const double nWidth)
+{
+	width = nWidth;
+}
+
+void Rectangle::setHeight(const double nHeight)
+{
+	height = nHeight;
 }
 
 void Rectangle::print()
 {
-	std::cout  <<"rectangle "<<
-		x << " " << y << " " << width << " " << height << " "
-		<< fill << " " << stroke << " "
+	std::cout  <<"rectangle: x and y coordinate of the base point"<<
+		x << " " << y << " width: " << width << " height: " << height << " fill: "
+		<< fill << " stroke: " << stroke << " stroke-width: "
 		<<strokeWidth << std::endl;
 }
 

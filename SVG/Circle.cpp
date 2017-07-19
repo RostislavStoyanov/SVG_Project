@@ -1,33 +1,76 @@
 #include "Circle.h"
 
 
-Circle::Circle()
+Circle::Circle():cx(0),cy(0),
+				r(0),Figure()
 {
-	Figure::getInfo("white", "black", 1);
-	cx = 0; cy = 0;
-	r = 0;
 }
 
-Circle::~Circle()
+Circle::Circle(const String &nFill, const String & nStroke, const unsigned int nStrokeWidth, double nCx, double nCy, double nR):
+																											cx(nCx),cy(nCy),r(nR),
+																											Figure(nFill,nStroke,nStrokeWidth)
 {
-	delete[] fill;
-	delete[] stroke;
 }
 
-void Circle::getInfo(const char *fill, const char *stroke, const unsigned int strokeWidth, double cx, double cy, double r)
+Circle::Circle(const char *nFill, const char *nStroke, const unsigned int nStrokeWidth, double nCx, double nCy, double nR):
+																											cx(nCx), cy(nCy), r(nR),
+																											Figure(nFill, nStroke, nStrokeWidth)
 {
-	Figure::getInfo(fill, stroke, strokeWidth);
-	this->cx = cx;
-	this->cy = cy;
-	this->r = r;
+}
+
+
+void Circle::getInfo(const char *nFill, const char *nStroke, const unsigned int nStrokeWidth, double nCx, double nCy, double nR)
+{
+	Figure::getInfo(nFill, nStroke, nStrokeWidth);
+	cx = nCx;
+	cy = nCy;
+	r = nR;
+}
+
+void Circle::getInfo(const String &nFill, const String & nStroke, const unsigned int nStrokeWidth, double nCx, double nCy, double nR)
+{
+	Figure::getInfo(nFill, nStroke, nStrokeWidth);
+	cx = nCx;
+	cy = nCy;
+	r = nR;
+}
+
+double Circle::getCx() const
+{
+	return cx;
+}
+
+double Circle::getCy() const
+{
+	return cy;
+}
+
+double Circle::getR() const
+{
+	return r;
+}
+
+void Circle::setCx(double nCx)
+{
+	cx = nCx;
+}
+
+void Circle::setCy(double nCy)
+{
+	cy = nCy;
+}
+
+void Circle::setR(double nR)
+{
+	r = nR;
 }
 
 void Circle::print()
 {
 
-	std::cout  <<"circle "<<
-		cx << " " << cy << " " << r<<" "<<
-		fill << " " << stroke << " "
+	std::cout  <<"circle: x and y of center: "<<
+		cx << " " << cy << " radius: " << r<<" fill: "<<
+		fill << " stroke: " << stroke << " stroke-width: "
 		<< strokeWidth<< std::endl;
 }
 

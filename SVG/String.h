@@ -45,7 +45,11 @@ public:
 
 	friend std::ostream& operator<<(std::ostream&, const String&); //prints the current object to ostream
 
-	String substr(size_t pos = 0, size_t len= npos);
+	String substr(size_t pos = 0, size_t len= npos); //creates a string object that contains text from a position in the current object
+													//and has a lenght that is user defined 
+	String substrDelim(size_t pos = 0, char delim = ' '); // creates a string object that takes text from the current object from a
+														//a position until a delim character is met
+
 
 	String& operator+=(const String&); //concatenate string to the current string
 	String& operator+=(const char*); //concatenates char array to current string
@@ -68,6 +72,9 @@ public:
 
 	char& operator[] (size_t pos);				//Returns a reference to the char at position in the current string
 	const char& operator[] (size_t pos) const;	//returns const char& if object is const-qualified
+
+	bool operator==(const String&); //returns true if strings are equal false if not
+	bool operator==(const char*); //returns true if char array and string contents are equal else false
 };
 
 

@@ -31,7 +31,6 @@ Figure::Figure()
 
 Figure::~Figure()
 {
-
 }
 
 Figure::Figure(const char * newFill, const char *newStroke, const unsigned int newStrokeWidth) : fill("white"),
@@ -96,6 +95,31 @@ String Figure::getStroke() const
 unsigned int Figure::getStrokeWidth() const
 {
 	return strokeWidth;
+}
+
+void Figure::setFill(const String &nFill)
+{
+	fill = nFill;
+}
+
+void Figure::setFill(const char * nFill)
+{
+	fill = nFill;
+}
+
+void Figure::setStroke(const String & nStroke)
+{
+	stroke = nStroke;
+}
+
+void Figure::setStroke(const char * nStroke)
+{
+	stroke=nStroke
+}
+
+void Figure::setStrokeWidth(const unsigned int nStrokeWidth)
+{
+	strokeWidth = nStrokeWidth;
 }
 
 void Figure::print() const

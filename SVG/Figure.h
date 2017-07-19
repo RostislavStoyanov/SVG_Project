@@ -25,17 +25,25 @@ public:
 
 	virtual ~Figure(); //virtual destructor
 
-	Figure(const char*, const char*, const unsigned int); //create figure from 2 char arrays and an integer
-	Figure(const String&, const String&, const unsigned int); // create figure using 2 string objects and an integer
+	Figure(const char*, const char*, const unsigned int); //creates figure from 2 char arrays and an integer
+	Figure(const String&, const String&, const unsigned int); // creates figure using 2 string objects and an integer
 
-	void getInfo(const char*,const char*,const unsigned int); //change all the figure data using char arrays
-	void getInfo(const String&, const String&, const unsigned int); // change all the figure data using string objects
+	void getInfo(const char*,const char*,const unsigned int); //changes all the figure data using char arrays
+	void getInfo(const String&, const String&, const unsigned int); // changes all the figure data using string objects
 
 	String getFill() const ; //returns a newly created string object holding the current fill of the figure
 
 	String getStroke() const ; //returns a newly created string object holding the current stroke of the figure
-
+	
 	unsigned int getStrokeWidth() const; //returns the current stroke width of the figure 
+
+	void setFill(const String&); //sets the fill of the figure using string object 
+	void setFill(const char*); //sets the fill of the figure using char*
+
+	void setStroke(const String&); //sets the stroke of the figure using string object
+	void setStroke(const char*); //sets the stroke of the figure using char*
+
+	void setStrokeWidth(const unsigned int); //set the stroke-width of the figure
 
 	virtual void print() const; //prints the fill,stroke and strokeWidth of the figure to console
 
