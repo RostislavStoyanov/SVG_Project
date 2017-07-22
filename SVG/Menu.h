@@ -11,6 +11,12 @@ private:
 	FigureCollection* figures;
 
 	void noFileOpened();
+
+	void existingFile(std::ifstream&);
+
+	void newFile(std::ofstream&);
+
+	void fileOpened(std::ofstream&);
 public:
 	Menu(); //default constructor
 

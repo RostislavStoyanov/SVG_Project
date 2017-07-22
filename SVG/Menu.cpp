@@ -22,7 +22,7 @@ void Menu::noFileOpened()
 	std::cout << "For list of avaliable commands type help" << std::endl;
 	while (true)
 	{
-		String input1, input2;
+		String input1;
 		std::cout << '>';
 		std::cin >> input1;
 		if (input1 == "exit")
@@ -36,8 +36,31 @@ void Menu::noFileOpened()
 		}
 		else if (input1 == "open")
 		{
+			String input2;
 			std::cin >> input2;
-			std::cout << input2 << std::endl;
+			delete[] figures;
+			figures = new FigureCollection;
+			char* fileName = input2.toChar();
+			std::ifstream input;
+			input.open(fileName);
+			if (input.is_open())
+			{
+				std::cout << "Successfully opened: " << fileName << std::endl;
+				existingFile(input);
+				input.close();
+				std::ofstream output;
+				output.open(fileName);
+				fileOpened(output);
+			}
+			else {
+				std::cout << "Could not open :" << fileName << " - creating new file" << std::endl;
+				input.close();
+				std::ofstream output;
+				output.open(fileName);
+				newFile(output);
+				fileOpened(output);
+			}
+			delete[]fileName;
 		}
 		else
 			std::cout << "That is not a valid command, see help for list of available commands" << std::endl;
@@ -45,8 +68,28 @@ void Menu::noFileOpened()
 	return;
 }
 
+void Menu::existingFile(std::ifstream &is)
+{
+
+}
+
+void Menu::newFile(std::ofstream & os)
+{
+	os << "<?xml version=\"1.0\" standalone=\"no\"?> \n"
+		<< "<!DOCTYPE svg PUBLIC \" -//W3C//DTD SVG 1.1//EN\" \n"
+		<< "  \"http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd\"> \n"
+		<< "<svg width = \"40cm\" height = \"20cm\" viewBox = \"0 0 1200 700\" \n"
+		<<"\t xmlns = \"http://www.w3.org/2000/svg\" version = \"1.1\"> \n";
+}
+
+void Menu::fileOpened(std::ofstream & os)
+{
+	os.close();
+}
+
 Menu::Menu() :figures(nullptr)
 {
+
 }
 
 
