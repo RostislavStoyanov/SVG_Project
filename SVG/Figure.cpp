@@ -114,7 +114,7 @@ void Figure::setStroke(const String & nStroke)
 
 void Figure::setStroke(const char * nStroke)
 {
-	stroke=nStroke
+	stroke = nStroke;
 }
 
 void Figure::setStrokeWidth(const unsigned int nStrokeWidth)
@@ -127,7 +127,7 @@ void Figure::print() const
 	std::cout << "Fill: " << fill << " Stroke: " << stroke << " Stroke-width: " << strokeWidth << std::endl;
 }
 
-void Figure::printToFile(std::ofstream &out)
+void Figure::printToFile(std::ofstream &out) const
 {
 	out << '\t' << '\t' << "fill=\"" << fill << "\" stroke=\"" << stroke << "\" stroke-width=\"" << strokeWidth << "\" />\n";
 	out << std::endl;

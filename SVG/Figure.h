@@ -47,7 +47,7 @@ public:
 
 	virtual void print() const; //prints the fill,stroke and strokeWidth of the figure to console
 
-	virtual void printToFile(std::ofstream&); //prints the fill,stroke and strokeWidth of the figure to a file 
+	virtual void printToFile(std::ofstream&) const; //prints the fill,stroke and strokeWidth of the figure to a file 
 
 	virtual void translate(const double ,const double)=0; //pure virtual function used to translate a figure
 

@@ -3,7 +3,7 @@
 class Rectangle :
 	public Figure
 {
-protected:
+private:
 	double x; //the x-axis coordinate of the left most point of the rectangle
 
 	double y; //the y-axis coordiante of the left most point of the rectangle
@@ -36,9 +36,9 @@ public:
 
 	void setHeight(const double); //sets the height attribute of the rectangle object
 
-	void print(); //prints the current Rectangle object to the console
+	void print() const; //prints the current Rectangle object to the console
 
-	void printToFile(std::ofstream&); //prints the current Rectangle object to a file
+	void printToFile(std::ofstream&) const; //prints the current Rectangle object to a file
 
 	void translate(const double, const double); //translates the current object 
 

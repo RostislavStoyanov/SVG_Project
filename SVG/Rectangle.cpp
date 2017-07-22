@@ -78,7 +78,7 @@ void Rectangle::setHeight(const double nHeight)
 	height = nHeight;
 }
 
-void Rectangle::print()
+void Rectangle::print() const
 {
 	std::cout  <<"rectangle: x and y coordinate of the base point"<<
 		x << " " << y << " width: " << width << " height: " << height << " fill: "
@@ -86,7 +86,7 @@ void Rectangle::print()
 		<<strokeWidth << std::endl;
 }
 
-void Rectangle::printToFile( std::ofstream &out)
+void Rectangle::printToFile( std::ofstream &out) const
 {
 	out << "\t<rect x=\"" << x << "\" y=\"" << y << "\" width=\"" << width << "\" height=\"" << height << "\"";
 	out << std::endl;

@@ -65,7 +65,7 @@ void Circle::setR(double nR)
 	r = nR;
 }
 
-void Circle::print()
+void Circle::print() const
 {
 
 	std::cout  <<"circle: x and y of center: "<<
@@ -74,7 +74,7 @@ void Circle::print()
 		<< strokeWidth<< std::endl;
 }
 
-void Circle::printToFile(std::ofstream &out)
+void Circle::printToFile(std::ofstream &out) const
 {
 	out << "\t" << "<circle cx=\"" << cx << "\" cy=\"" << cy << "\" r=\"" << r << "\"";
 	out << std::endl;

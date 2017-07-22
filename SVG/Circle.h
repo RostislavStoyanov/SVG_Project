@@ -30,9 +30,9 @@ public:
 
 	void setR(double); //sets the radius property of the circle object
 
-	void print(); //prints the current circle object to console
+	void print() const; //prints the current circle object to console
 
-	void printToFile(std::ofstream&); //prints the current circle object to a file
+	void printToFile(std::ofstream&) const; //prints the current circle object to a file
 
 	void translate(const double, const double); //translate the current circle object
 
