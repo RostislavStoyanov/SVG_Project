@@ -8,15 +8,21 @@
 class Menu
 {
 private:
-	FigureCollection* figures;
+	FigureCollection* figures; //holds the current figure collection for the opened file
 
-	void noFileOpened();
+	void noFileOpened(); //menu before a file is opened
 
-	void existingFile(std::ifstream&);
+	void readFile(std::istream&,int&); //reads file until <svg> tag and counts the line before that
 
-	void newFile(std::ofstream&);
+	void fileOpened(std::ofstream&,int); //menu after a file is opened
 
-	void fileOpened(std::ofstream&);
+	void readFromSvg(std::istream&); //reads file from <svg> to </svg> and calls the nessecery functions to create figures
+
+	void readRectangle(String&); //creates rectangle from a String object read from a file
+
+	void readCircle(String&); //creates circle from a String object read from a file
+
+	void readLine(String&); //creates line from a String object read from a file
 public:
 	Menu(); //default constructor
 

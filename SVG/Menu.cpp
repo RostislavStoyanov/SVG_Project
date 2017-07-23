@@ -10,16 +10,21 @@ void printHeadLine()
 	size_t width = csbi.srWindow.Right - csbi.srWindow.Left;
 	size_t halfTextSize = 5;
 	size_t numberOfWhites = (width - halfTextSize) / 2;
+	for (size_t i = 0; i < width; i++)
+		std::cout << '-';
+	std::cout << std::endl;
 	for (size_t i = 0; i < (numberOfWhites); i++)
 	{
 		std::cout << " ";
 	}
 	std::cout << headline << std::endl;
+	for (size_t i = 0; i < width; i++)
+		std::cout << '-';
+	std::cout << std::endl;
 }
 
 void Menu::noFileOpened()
 {
-	std::cout << "For list of avaliable commands type help" << std::endl;
 	while (true)
 	{
 		String input1;
@@ -46,19 +51,24 @@ void Menu::noFileOpened()
 			if (input.is_open())
 			{
 				std::cout << "Successfully opened: " << fileName << std::endl;
-				existingFile(input);
+				int numberOfLines = 0;
+				readFile(input,numberOfLines);
 				input.close();
+				if (numberOfLines == -1)
+				{
+					std::cout << "Please try opening or creating a new file " << std::endl;
+					noFileOpened();
+				}
 				std::ofstream output;
 				output.open(fileName);
-				fileOpened(output);
+				fileOpened(output,numberOfLines);
 			}
 			else {
 				std::cout << "Could not open :" << fileName << " - creating new file" << std::endl;
 				input.close();
 				std::ofstream output;
 				output.open(fileName);
-				newFile(output);
-				fileOpened(output);
+				fileOpened(output,0);
 			}
 			delete[]fileName;
 		}
@@ -68,23 +78,104 @@ void Menu::noFileOpened()
 	return;
 }
 
-void Menu::existingFile(std::ifstream &is)
+void Menu::readFile(std::istream &is,int& numberOfLines)
+{
+	bool reachedOpening = false;
+	while (!is.eof())
+	{
+		String line;
+		line.getLine(is);
+		if (!(line.find("<svg") == String::npos)&&(reachedOpening==false))
+			numberOfLines++;
+		if (line.find("<svg")!=String::npos)
+		{
+			reachedOpening = true;
+			break;
+		}
+	}
+	if (reachedOpening == false)
+	{
+		std::cout << "The file is invalid" << std::endl;
+		numberOfLines = -1;
+		return;
+	}
+	else readFromSvg(is);
+}
+
+
+void Menu::fileOpened(std::ofstream & os,int numberOfLinesAbove)
+{
+	//dont forget to close it before return 
+	//os.close();
+}
+
+void Menu::readFromSvg(std::istream &is)
+{
+	String currentFigure;
+	while (!is.eof())
+	{
+		String currentLine;
+		currentLine.getLine(is);
+		if (currentLine == "</svg>")
+			return;
+		currentFigure += currentLine;
+		if (currentFigure.find("<rect") != String::npos)
+		{
+			if (currentFigure.find("/>") == String::npos)
+				continue;
+			else
+			{
+				readRectangle(currentFigure);
+				currentFigure == "";
+				continue;
+			}
+		}
+		if (currentFigure.find("<cicle") != String::npos)
+		{
+			if (currentFigure.find("/>") == String::npos)
+				continue;
+			else
+			{
+				readCircle(currentFigure);
+				currentFigure == "";
+				continue;
+			}
+		}
+			if (currentFigure.find("<line") != String::npos)
+			{
+				if (currentFigure.find("/>") == String::npos)
+					continue;
+				else
+				{
+					readLine(currentFigure);
+					currentFigure = "";
+					continue;
+				}
+			}
+		}
+}
+
+void Menu::readRectangle(String & currentRect)
+{
+	double currentX, currentY, currentHeight, currentWidth;
+	unsigned int currentStrokeWidth;
+	size_t openingPos = currentRect.find("<rect");
+	size_t closingPos = currentRect.find("/>");
+	size_t widthPos = currentRect.find("width");
+	size_t heightPos = currentRect.find("height");
+	size_t xPos = currentRect.find("x=");
+	size_t yPos = currentRect.find("y=");
+
+}
+
+void Menu::readCircle(String & currentCirc)
 {
 
 }
 
-void Menu::newFile(std::ofstream & os)
+void Menu::readLine(String & currentLine)
 {
-	os << "<?xml version=\"1.0\" standalone=\"no\"?> \n"
-		<< "<!DOCTYPE svg PUBLIC \" -//W3C//DTD SVG 1.1//EN\" \n"
-		<< "  \"http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd\"> \n"
-		<< "<svg width = \"40cm\" height = \"20cm\" viewBox = \"0 0 1200 700\" \n"
-		<<"\t xmlns = \"http://www.w3.org/2000/svg\" version = \"1.1\"> \n";
-}
 
-void Menu::fileOpened(std::ofstream & os)
-{
-	os.close();
 }
 
 Menu::Menu() :figures(nullptr)
@@ -101,6 +192,7 @@ Menu::~Menu()
 void Menu::main()
 {
 	printHeadLine();
+	std::cout << "Type \"help\" for list of available commands " << std::endl;
 	noFileOpened();
 	return;
 }

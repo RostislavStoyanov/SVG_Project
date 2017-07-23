@@ -230,6 +230,14 @@ bool String::operator==(const char *other)
 	return true;
 }
 
+double String::stod() const
+{
+	char* temp = toChar();
+	double toRet=atof(temp);
+	delete[] temp;
+	return toRet;
+}
+
 std::istream & operator>>(std::istream &is, String &str)
 {
 	str.currentSize = 0;

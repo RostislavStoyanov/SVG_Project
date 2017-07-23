@@ -14,11 +14,11 @@ private:
     
 	size_t currentSize; //current number of chars in data
 	
-	static const size_t npos = -1;
-    
 	void getData(const char *, size_t maxSize); //sets currentSize to the other char* size and
 												// copies the content of the other char* to data
 public:
+	static const size_t npos = -1;
+
     String(); //default constructor
     ~String(); //destructor
 
@@ -75,6 +75,8 @@ public:
 
 	bool operator==(const String&); //returns true if strings are equal false if not
 	bool operator==(const char*); //returns true if char array and string contents are equal else false
+
+	double stod() const; //converts the string content to double		
 };
 
 
