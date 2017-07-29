@@ -149,6 +149,7 @@
     <ClCompile Include="Circle.cpp" />
     <ClCompile Include="Figure.cpp" />
     <ClCompile Include="FigureCollection.cpp" />
+    <ClCompile Include="FigureFactory.cpp" />
     <ClCompile Include="Line.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Menu.cpp" />
@@ -159,6 +160,7 @@
     <ClInclude Include="Circle.h" />
     <ClInclude Include="Figure.h" />
     <ClInclude Include="FigureCollection.h" />
+    <ClInclude Include="FigureFactory.h" />
     <ClInclude Include="Line.h" />
     <ClInclude Include="Menu.h" />
     <ClInclude Include="Rectangle.h" />

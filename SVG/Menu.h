@@ -1,14 +1,16 @@
 #pragma once
-#define _WIN32_WINNT 0x0500
-#define SCREENWIDTH getmaxx()
-#include"FigureCollection.h"
 #include<Windows.h>
-#include<WinBase.h>
-#include<wincon.h>
+#include"FigureCollection.h"
+#include"FigureFactory.h"
+#include"Rectangle.h"
 class Menu
 {
 private:
-	FigureCollection* figures; //holds the current figure collection for the opened file
+	Figures::FigureCollection* figures; //holds the current figure collection for the opened file
+
+	Figures::FigureFactory fact;//creates diffrent figures
+
+	void readFigureProperties(String&, String&, String&, unsigned int); //reads fill ,stroke and strokewidth from string line
 
 	void noFileOpened(); //menu before a file is opened
 

@@ -23,6 +23,32 @@ void printHeadLine()
 	std::cout << std::endl;
 }
 
+void Menu::readFigureProperties(String & line, String & fill, String &stroke, unsigned int strokeWidth)
+{
+	size_t openingPos;
+	size_t closingPos = line.find("/>");
+	if (line.find("rect") != String::npos)
+		openingPos = line.find("rect");
+	else if (line.find("circle") != String::npos)
+		openingPos = line.find("circle");
+	else if (line.find("line") != String::npos)
+		openingPos = line.find("line");
+	size_t fillPos = line.find("fill");
+	size_t strokePos = line.find("stroke");
+	size_t strokeWidthPos = line.find("stroke-width");
+	if (fillPos > openingPos&&fillPos < closingPos)
+		fill = line.substrDelim(fillPos + 5, '"');
+	if (strokePos > openingPos&&strokePos < closingPos)
+		stroke = line.substrDelim(strokePos + 7, '"');
+	if (strokeWidthPos > openingPos&&strokeWidthPos < closingPos)
+	{
+		String temp = line.substrDelim(strokeWidthPos + 13, '"');
+		char* tempArr = temp.toChar();
+		sscanf(tempArr, "%u", &strokeWidth);
+		delete[] tempArr;
+	}
+}
+
 void Menu::noFileOpened()
 {
 	while (true)
@@ -44,7 +70,7 @@ void Menu::noFileOpened()
 			String input2;
 			std::cin >> input2;
 			delete[] figures;
-			figures = new FigureCollection;
+			figures = new Figures::FigureCollection;
 			char* fileName = input2.toChar();
 			std::ifstream input;
 			input.open(fileName);
@@ -130,7 +156,7 @@ void Menu::readFromSvg(std::istream &is)
 				continue;
 			}
 		}
-		if (currentFigure.find("<cicle") != String::npos)
+		if (currentFigure.find("<circle") != String::npos)
 		{
 			if (currentFigure.find("/>") == String::npos)
 				continue;
@@ -157,15 +183,39 @@ void Menu::readFromSvg(std::istream &is)
 
 void Menu::readRectangle(String & currentRect)
 {
-	double currentX, currentY, currentHeight, currentWidth;
-	unsigned int currentStrokeWidth;
+	double currentX=0, currentY=0, currentHeight=0, currentWidth=0;
+	String stroke="black", fill="white";
+	unsigned int currentStrokeWidth=0;
 	size_t openingPos = currentRect.find("<rect");
 	size_t closingPos = currentRect.find("/>");
 	size_t widthPos = currentRect.find("width");
 	size_t heightPos = currentRect.find("height");
 	size_t xPos = currentRect.find("x=");
 	size_t yPos = currentRect.find("y=");
-
+	if (xPos > openingPos&&xPos < closingPos)
+	{
+		String temp = currentRect.substrDelim(xPos + 2, '"');
+		currentX = temp.stod();
+	}
+	if (yPos > openingPos&&yPos < closingPos)
+	{
+		String temp = currentRect.substrDelim(yPos + 2, '"');
+		currentY = temp.stod();
+	}
+	if (widthPos > openingPos&&widthPos < closingPos)
+	{
+		String temp = currentRect.substrDelim(widthPos + 7,'"');
+		currentWidth = temp.stod();
+	}
+	if (heightPos > openingPos&&heightPos < closingPos)
+	{
+		String temp = currentRect.substrDelim(heightPos + 8,'"');
+		currentHeight = temp.stod();
+	}
+	readFigureProperties(currentRect,fill,stroke,currentStrokeWidth);
+	Figures::Rectangle* newRect = new Figures::Rectangle;
+	newRect->getInfo(fill, stroke, currentStrokeWidth, currentX, currentY, currentWidth, currentHeight);
+	figures->addEntry(newRect);
 }
 
 void Menu::readCircle(String & currentCirc)
