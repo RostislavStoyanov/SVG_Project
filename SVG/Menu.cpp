@@ -37,9 +37,9 @@ void Menu::readFigureProperties(String & line, String & fill, String &stroke, un
 	size_t strokePos = line.find("stroke");
 	size_t strokeWidthPos = line.find("stroke-width");
 	if (fillPos > openingPos&&fillPos < closingPos)
-		fill = line.substrDelim(fillPos + 5, '"');
+		fill = line.substrDelim(fillPos + 6, '"');
 	if (strokePos > openingPos&&strokePos < closingPos)
-		stroke = line.substrDelim(strokePos + 7, '"');
+		stroke = line.substrDelim(strokePos + 8, '"');
 	if (strokeWidthPos > openingPos&&strokeWidthPos < closingPos)
 	{
 		String temp = line.substrDelim(strokeWidthPos + 13, '"');
@@ -128,7 +128,6 @@ void Menu::readFile(std::istream &is,int& numberOfLines)
 	else readFromSvg(is);
 }
 
-
 void Menu::fileOpened(std::ofstream & os,int numberOfLinesAbove)
 {
 	//dont forget to close it before return 
@@ -194,12 +193,12 @@ void Menu::readRectangle(String & currentRect)
 	size_t yPos = currentRect.find("y=");
 	if (xPos > openingPos&&xPos < closingPos)
 	{
-		String temp = currentRect.substrDelim(xPos + 2, '"');
+		String temp = currentRect.substrDelim(xPos + 3, '"');
 		currentX = temp.stod();
 	}
 	if (yPos > openingPos&&yPos < closingPos)
 	{
-		String temp = currentRect.substrDelim(yPos + 2, '"');
+		String temp = currentRect.substrDelim(yPos + 3, '"');
 		currentY = temp.stod();
 	}
 	if (widthPos > openingPos&&widthPos < closingPos)
@@ -220,19 +219,76 @@ void Menu::readRectangle(String & currentRect)
 
 void Menu::readCircle(String & currentCirc)
 {
-
+	double currCx = 0, currCy = 0, currR = 0;
+	String currFill="white", currStroke="white";
+	unsigned int currStrokeWidth = 0;
+	size_t openingPos = currentCirc.find("<circle");
+	size_t closingPos = currentCirc.find("/>");
+	size_t cXPos = currentCirc.find("cx");
+	size_t cYPos = currentCirc.find("cy");
+	size_t rPos = currentCirc.find("r");
+	Figures::Circle* newCirc = new Figures::Circle;
+	if (cXPos > openingPos&&cXPos < closingPos)
+	{
+		String temp = currentCirc.substrDelim(cXPos + 4, '"');
+		currCx = temp.stod();
+	}
+	if (cYPos > openingPos&&cYPos < closingPos)
+	{
+		String temp = currentCirc.substrDelim(cYPos + 4, '"');
+		currCy = temp.stod();
+	}
+	if (rPos > openingPos&&rPos < closingPos)
+	{
+		String temp = currentCirc.substrDelim(rPos + 3, '"');
+		currR = temp.stod();
+	}
+	readFigureProperties(currentCirc, currFill, currStroke, currStrokeWidth);
+	newCirc->getInfo(currFill, currStroke, currStrokeWidth, currCx, currCy, currR);
+	figures->addEntry(newCirc);
 }
 
 void Menu::readLine(String & currentLine)
 {
-
+	double currX1 = 0, currX2 = 0, currY1 = 0,currY2;
+	String currFill = "white", currStroke = "white";
+	unsigned int currStrokeWidth = 0;
+	size_t openingPos = currentLine.find("line");
+	size_t closingPos = currentLine.find("/>");
+	size_t x1Pos = currentLine.find("x1");
+	size_t x2Pos = currentLine.find("x2");
+	size_t y1Pos = currentLine.find("y1");
+	size_t y2Pos = currentLine.find("y2");
+	Figures::Line* newLine = new Figures::Line;
+	if (x1Pos > openingPos&&x1Pos < closingPos)
+	{
+		String temp = currentLine.substr(x1Pos + 4, '"');
+		currX1 = temp.stod();
+	}
+	if (x2Pos > openingPos&&x2Pos < closingPos)
+	{
+		String temp = currentLine.substr(x1Pos + 4, '"');
+		currX2 = temp.stod();
+	}
+	if (y1Pos > openingPos&&y1Pos < closingPos)
+	{
+		String temp = currentLine.substr(x1Pos + 4, '"');
+		currY1 = temp.stod();
+	}
+	if (y2Pos > openingPos&&y2Pos < closingPos)
+	{
+		String temp = currentLine.substr(x1Pos + 4, '"');
+		currY2 = temp.stod();
+	}
+	readFigureProperties(currentLine, currFill, currStroke, currStrokeWidth);
+	newLine->getInfo(currFill, currStroke, currStrokeWidth, currX1, currY1, currX2, currY2);
+	figures->addEntry(newLine);
 }
 
 Menu::Menu() :figures(nullptr)
 {
 
 }
-
 
 Menu::~Menu()
 {
