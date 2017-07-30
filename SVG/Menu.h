@@ -10,13 +10,13 @@ private:
 
 	Figures::FigureFactory fact;//creates diffrent figures
 
-	void readFigureProperties(String&, String&, String&, unsigned int); //reads fill ,stroke and strokewidth from string line
+	void readFigureProperties(String&, String&, String&, unsigned int&); //reads fill ,stroke and strokewidth from string line
 
 	void noFileOpened(); //menu before a file is opened
 
 	void readFile(std::istream&,int&); //reads file until <svg> tag and counts the line before that
 
-	void fileOpened(std::ofstream&,int); //menu after a file is opened
+	void fileOpened(String&,int); //menu after a file is opened
 
 	void readFromSvg(std::istream&); //reads file from <svg> to </svg> and calls the nessecery functions to create figures
 

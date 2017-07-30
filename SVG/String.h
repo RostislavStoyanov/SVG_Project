@@ -77,6 +77,7 @@ public:
 	bool operator==(const char*); //returns true if char array and string contents are equal else false
 
 	double stod() const; //converts the string content to double		
+	void clear(); //Erases the contents of the string
 };
 
 

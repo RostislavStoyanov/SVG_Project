@@ -8,7 +8,9 @@ namespace Figures
 	class FigureFactory
 	{
 	public:
-		static Figure* createFigure(const char*);
+		static Rectangle* createRect();
+		static Circle* createCirc();
+		static Line* createLine();
 	};
 }
 

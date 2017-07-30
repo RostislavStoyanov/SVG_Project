@@ -1,14 +1,16 @@
 #include "FigureFactory.h"
 namespace Figures
 {
-	Figure * FigureFactory::createFigure(const char *figure)
+	Rectangle * FigureFactory::createRect()
 	{
-		if (!strcmp(figure, "rect") || !strcmp(figure, "rectangle"))
-			return new Rectangle;
-		if (!strcmp(figure, "circ") || !strcmp(figure, "circle"))
-			return new Circle;
-		if (!strcmp(figure, "line"))
-			return new Line;
-		return nullptr;
+		return new Rectangle;
+	}
+	Circle * FigureFactory::createCirc()
+	{
+		return new Circle;
+	}
+	Line * FigureFactory::createLine()
+	{
+		return new Line;
 	}
 }

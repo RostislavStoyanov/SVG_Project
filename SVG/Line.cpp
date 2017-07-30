@@ -23,7 +23,7 @@ namespace Figures
 
 	void Line::getInfo(const char *nFill, const char *nStroke, const unsigned int nStrokeWidth, double nX1, double nY1, double nX2, double nY2)
 	{
-		Figure::getInfo(fill, stroke, strokeWidth);
+		Figure::getInfo(nFill, nStroke, nStrokeWidth);
 		x1 = nX1;
 		x2 = nX2;
 		y1 = nY1;
@@ -32,7 +32,7 @@ namespace Figures
 
 	void Line::getInfo(const String &nFill, const String &nStroke, const unsigned int nStrokeWidth, double nX1, double nY1, double nX2, double nY2)
 	{
-		Figure::getInfo(fill, stroke, strokeWidth);
+		Figure::getInfo(nFill, nStroke, nStrokeWidth);
 		x1 = nX1;
 		x2 = nX2;
 		y1 = nY1;
@@ -81,8 +81,8 @@ namespace Figures
 
 	void Line::print() const
 	{
-		std::cout << "line: coordinates of first point: " <<
-			x1 << " " << y1 << " coordinates of second point: " << x2 << " " << y2 << " fill: "
+		std::cout << "line: x1= " <<
+			x1 << " y1= " << y1 << " x2= " << x2 << " y2= " << y2 << " \n \t fill: "
 			<< fill << " stroke: " << stroke << " stroke-width: " << strokeWidth
 			<< std::endl;
 	}

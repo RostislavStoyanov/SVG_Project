@@ -68,8 +68,8 @@ namespace Figures
 	void Circle::print() const
 	{
 
-		std::cout << "circle: x and y of center: " <<
-			cx << " " << cy << " radius: " << r << " fill: " <<
+		std::cout << "circle: cx= " <<
+			cx << " cy= " << cy << " radius= " << r << "\n \t fill: " <<
 			fill << " stroke: " << stroke << " stroke-width: "
 			<< strokeWidth << std::endl;
 	}

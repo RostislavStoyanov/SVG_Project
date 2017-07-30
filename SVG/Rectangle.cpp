@@ -80,8 +80,8 @@ namespace Figures
 
 	void Rectangle::print() const
 	{
-		std::cout << "rectangle: x and y coordinate of the base point" <<
-			x << " " << y << " width: " << width << " height: " << height << " fill: "
+		std::cout << "rectangle: x=" <<
+			x << " y= " << y << " width= " << width << " height= " << height << "\n \t fill: "
 			<< fill << " stroke: " << stroke << " stroke-width: "
 			<< strokeWidth << std::endl;
 	}

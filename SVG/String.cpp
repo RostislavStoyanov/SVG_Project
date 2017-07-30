@@ -87,14 +87,29 @@ String String::operator=(const char *other) {
 void String::addChar(const char newChar) {
     if (maxSize == currentSize+1) {
 		maxSize *= 2;
-		getData(this->data, maxSize);
+		char* temp = new char[maxSize];
+		strcpy_s(temp, currentSize+1, data);
+		delete[] data;
+		data = temp;
     }
 	data[currentSize++] = newChar;
-	data[currentSize] = '\0';
+	data[currentSize] = 0;
 }
 
 void String::getLine(std::istream & is, const char delim)
 {
+	if (data[0] != 0)
+	{
+		delete[] data;
+		try {
+			data = new char[maxSize];
+			data[0] = '\0';
+		}
+		catch (std::bad_alloc &) {
+			std::cerr << "Not enough memory" << std::endl;
+			throw;
+		}
+	}
 	char temp;
 	while (!is.eof())
 	{
@@ -109,27 +124,29 @@ void String::getLine(std::istream & is, const char delim)
 
 size_t String::find(const char * text)
 {
-	size_t currPos=npos;
-	bool found = 0;
+	size_t currPos=String::npos;
+	bool found = false;
 	for (size_t i = 0; i < currentSize; i++)
 	{
         if (data[i] == text[0])
 		{
-			for (size_t j = i+1; j < currentSize; j++)
+			for (size_t j = i+1; j < i+ strlen(text); j++)
 			{
                 if (data[j] == text[j - i])
-					found = 1;
+					found = true;
 				else
 				{
-					found = 0;
+					found = false;
 					break;
 				}
 			}
-			if (found == 1)
+			if (found == true)
 			{
 				currPos = i;
 				break;
 			}
+			else
+				continue;
 		}
 	}
 	return currPos;
@@ -139,11 +156,7 @@ size_t String::find(const char * text)
 char * String::toChar() const
 {
 	char* text= new char[currentSize+1];
-	for (size_t i = 0; i < currentSize; i++)
-	{
-		text[i] = data[i];
-	}
-	text[currentSize + 1] = 0;
+	strcpy(text, data);
 	return text;
 }
 
@@ -238,9 +251,24 @@ double String::stod() const
 	return toRet;
 }
 
+void String::clear()
+{
+	if (data = nullptr) return;
+	delete[] data;
+	currentSize = 0;
+	maxSize = 16;
+	try {
+		data = new char[maxSize];
+		data[0] = '\0';
+	}
+	catch (std::bad_alloc &) {
+		std::cerr << "Not enough memory" << std::endl;
+		throw;
+	}
+}
+
 std::istream & operator>>(std::istream &is, String &str)
 {
-	str.currentSize = 0;
 	char temp;
 	while (is)
 	{
@@ -249,7 +277,7 @@ std::istream & operator>>(std::istream &is, String &str)
 			break;
 		str.addChar(temp);
 	}
-	str.data[str.currentSize + 1] = '\0';
+	str.data[str.currentSize + 1] = 0;
 	return is;
 }
 

@@ -23,7 +23,7 @@ void printHeadLine()
 	std::cout << std::endl;
 }
 
-void Menu::readFigureProperties(String & line, String & fill, String &stroke, unsigned int strokeWidth)
+void Menu::readFigureProperties(String & line, String & fill, String &stroke, unsigned int& strokeWidth)
 {
 	size_t openingPos;
 	size_t closingPos = line.find("/>");
@@ -42,7 +42,7 @@ void Menu::readFigureProperties(String & line, String & fill, String &stroke, un
 		stroke = line.substrDelim(strokePos + 8, '"');
 	if (strokeWidthPos > openingPos&&strokeWidthPos < closingPos)
 	{
-		String temp = line.substrDelim(strokeWidthPos + 13, '"');
+		String temp = line.substrDelim(strokeWidthPos + 14, '"');
 		char* tempArr = temp.toChar();
 		sscanf(tempArr, "%u", &strokeWidth);
 		delete[] tempArr;
@@ -85,16 +85,12 @@ void Menu::noFileOpened()
 					std::cout << "Please try opening or creating a new file " << std::endl;
 					noFileOpened();
 				}
-				std::ofstream output;
-				output.open(fileName);
-				fileOpened(output,numberOfLines);
+				fileOpened(input2,numberOfLines);
 			}
 			else {
-				std::cout << "Could not open :" << fileName << " - creating new file" << std::endl;
+				std::cout << "Could not open : " << fileName << " - creating new file" << std::endl;
 				input.close();
-				std::ofstream output;
-				output.open(fileName);
-				fileOpened(output,0);
+				fileOpened(input2,0);
 			}
 			delete[]fileName;
 		}
@@ -116,6 +112,15 @@ void Menu::readFile(std::istream &is,int& numberOfLines)
 		if (line.find("<svg")!=String::npos)
 		{
 			reachedOpening = true;
+			if(line.find(">")==String::npos)
+			{
+				String temp;
+				temp.getLine(is);
+				while (temp.find(">") != String::npos)
+				{
+					temp.getLine(is);
+				}
+			}
 			break;
 		}
 	}
@@ -125,11 +130,22 @@ void Menu::readFile(std::istream &is,int& numberOfLines)
 		numberOfLines = -1;
 		return;
 	}
-	else readFromSvg(is);
+	else
+		readFromSvg(is);
 }
 
-void Menu::fileOpened(std::ofstream & os,int numberOfLinesAbove)
+void Menu::fileOpened(String& file,int numberOfLinesAbove)
 {
+	while (true)
+	{
+		std::cout << '>';
+		String input;
+		std::cin >> input;
+		if (input == "close")
+			return;
+		if (input == "print")
+			figures->printToConsole();
+	}
 	//dont forget to close it before return 
 	//os.close();
 }
@@ -151,32 +167,34 @@ void Menu::readFromSvg(std::istream &is)
 			else
 			{
 				readRectangle(currentFigure);
-				currentFigure == "";
+				currentFigure.clear();
 				continue;
 			}
 		}
-		if (currentFigure.find("<circle") != String::npos)
+		else if (currentFigure.find("<circle") != String::npos)
 		{
 			if (currentFigure.find("/>") == String::npos)
 				continue;
 			else
 			{
 				readCircle(currentFigure);
-				currentFigure == "";
+				currentFigure.clear();
 				continue;
 			}
 		}
-			if (currentFigure.find("<line") != String::npos)
+		else if (currentFigure.find("<line") != String::npos)
+		{
+			if (currentFigure.find("/>") == String::npos)
+				continue;
+			else
 			{
-				if (currentFigure.find("/>") == String::npos)
-					continue;
-				else
-				{
-					readLine(currentFigure);
-					currentFigure = "";
-					continue;
-				}
+				readLine(currentFigure);
+				currentFigure.clear();
+				continue;
 			}
+		}
+		else
+			currentFigure.clear();
 		}
 }
 
@@ -212,7 +230,7 @@ void Menu::readRectangle(String & currentRect)
 		currentHeight = temp.stod();
 	}
 	readFigureProperties(currentRect,fill,stroke,currentStrokeWidth);
-	Figures::Rectangle* newRect = new Figures::Rectangle;
+	Figures::Rectangle* newRect = fact.createRect();
 	newRect->getInfo(fill, stroke, currentStrokeWidth, currentX, currentY, currentWidth, currentHeight);
 	figures->addEntry(newRect);
 }
@@ -227,7 +245,7 @@ void Menu::readCircle(String & currentCirc)
 	size_t cXPos = currentCirc.find("cx");
 	size_t cYPos = currentCirc.find("cy");
 	size_t rPos = currentCirc.find("r");
-	Figures::Circle* newCirc = new Figures::Circle;
+	Figures::Circle* newCirc = fact.createCirc();
 	if (cXPos > openingPos&&cXPos < closingPos)
 	{
 		String temp = currentCirc.substrDelim(cXPos + 4, '"');
@@ -259,7 +277,7 @@ void Menu::readLine(String & currentLine)
 	size_t x2Pos = currentLine.find("x2");
 	size_t y1Pos = currentLine.find("y1");
 	size_t y2Pos = currentLine.find("y2");
-	Figures::Line* newLine = new Figures::Line;
+	Figures::Line* newLine = fact.createLine();
 	if (x1Pos > openingPos&&x1Pos < closingPos)
 	{
 		String temp = currentLine.substr(x1Pos + 4, '"');
@@ -267,17 +285,17 @@ void Menu::readLine(String & currentLine)
 	}
 	if (x2Pos > openingPos&&x2Pos < closingPos)
 	{
-		String temp = currentLine.substr(x1Pos + 4, '"');
+		String temp = currentLine.substr(x2Pos + 4, '"');
 		currX2 = temp.stod();
 	}
 	if (y1Pos > openingPos&&y1Pos < closingPos)
 	{
-		String temp = currentLine.substr(x1Pos + 4, '"');
+		String temp = currentLine.substr(y1Pos + 4, '"');
 		currY1 = temp.stod();
 	}
 	if (y2Pos > openingPos&&y2Pos < closingPos)
 	{
-		String temp = currentLine.substr(x1Pos + 4, '"');
+		String temp = currentLine.substr(y2Pos + 4, '"');
 		currY2 = temp.stod();
 	}
 	readFigureProperties(currentLine, currFill, currStroke, currStrokeWidth);
