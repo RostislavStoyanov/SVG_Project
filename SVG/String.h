@@ -76,7 +76,12 @@ public:
 	bool operator==(const String&); //returns true if strings are equal false if not
 	bool operator==(const char*); //returns true if char array and string contents are equal else false
 
-	double stod() const; //converts the string content to double		
+	double stod() const; //converts the string content to double	
+
+	unsigned int stou() const; //converts the string content to unsinged int
+
+	int stoi() const; //converts the string content to int
+
 	void clear(); //Erases the contents of the string
 };
 

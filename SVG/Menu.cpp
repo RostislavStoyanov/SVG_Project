@@ -43,9 +43,7 @@ void Menu::readFigureProperties(String & line, String & fill, String &stroke, un
 	if (strokeWidthPos > openingPos&&strokeWidthPos < closingPos)
 	{
 		String temp = line.substrDelim(strokeWidthPos + 14, '"');
-		char* tempArr = temp.toChar();
-		sscanf(tempArr, "%u", &strokeWidth);
-		delete[] tempArr;
+		strokeWidth = temp.stou();
 	}
 }
 
@@ -90,6 +88,7 @@ void Menu::noFileOpened()
 			else {
 				std::cout << "Could not open : " << fileName << " - creating new file" << std::endl;
 				input.close();
+				std::ofstream os(fileName);
 				fileOpened(input2,0);
 			}
 			delete[]fileName;
@@ -107,18 +106,33 @@ void Menu::readFile(std::istream &is,int& numberOfLines)
 	{
 		String line;
 		line.getLine(is);
-		if (!(line.find("<svg") == String::npos)&&(reachedOpening==false))
+		if ((line.find("<svg") == String::npos) && (reachedOpening == false))
+		{
 			numberOfLines++;
+			continue;
+		}
 		if (line.find("<svg")!=String::npos)
 		{
 			reachedOpening = true;
+			numberOfLines++;
 			if(line.find(">")==String::npos)
 			{
-				String temp;
-				temp.getLine(is);
-				while (temp.find(">") != String::npos)
+				bool ended = false;
+				while (!is.eof())
 				{
+					String temp;
 					temp.getLine(is);
+					numberOfLines++;
+					if (temp.find(">") != String::npos)
+						ended = true;
+					if (ended == true)
+						break;
+				}
+				if (ended == false)
+				{
+					std::cout << "Invalid file" << std::endl;
+					numberOfLines = -1;
+					return;
 				}
 			}
 			break;
@@ -143,11 +157,113 @@ void Menu::fileOpened(String& file,int numberOfLinesAbove)
 		std::cin >> input;
 		if (input == "close")
 			return;
-		if (input == "print")
+		else if (input == "help")
+			std::cout <<"List of available commands: \n"
+			<<"print - displays all the figures that have been created or read from a file \n"
+			<< "create - creates a new figure has the following options: \n"
+			<< " \t - rectangle <x> <y> <width> <height> <fill> <stroke> <stroke-width> \n"
+			<< " \t - circle <cx> <cy> <r> <fill> <stroke> <stroke-width> \n"
+			<< " \t - line <x1> <y1> <x2> <y2> <fill> <stroke> <stroke-width> \n"
+			<< "erase <id> - erases the figure with index equal to id or erases all figures if id = \"all\" \n"
+			<< "translate <id> -translates the figure with index equal to id or translates all figures if id =\"all\"\n"
+			<< "within - displays all the figures inside a user-specified region that can be circle or rectangle \n"
+			<< "save- saves all the figures to the current file \n"
+			<< "saveas <file name> - saves all the figures to user-specified file \n"
+			<< "close- closes the current file and returns to the previous menu \n"
+			<< "help - displays the current message" << std::endl;
+		else if (input == "print") 
 			figures->printToConsole();
+		else if (input == "save")
+		{
+			char* fileName = file.toChar();
+			if (numberOfLinesAbove == 0)
+			{
+				newFileWrite(fileName);
+			}
+			else
+			{
+				existingFileWrite(fileName, fileName, numberOfLinesAbove);
+			}
+			delete[] fileName;
+		}
+		else if (input == "saveas")
+		{
+			String input2;
+			std::cin >> input2;
+			char* fileName = file.toChar();
+			char* newFileName = input2.toChar();
+			if (numberOfLinesAbove == 0)
+			{
+				newFileWrite(newFileName);
+			}
+			else
+			{
+				existingFileWrite(fileName, newFileName, numberOfLinesAbove);
+			}
+			delete[] fileName;
+		}
+		else if (input == "create")
+		{
+			String figure;
+			std::cin >> figure;
+			if (figure == "rectangle")
+			{
+				createRectangle();
+			}
+			else if (figure == "circle")
+			{
+				createCircle();
+			}
+			else if (figure == "line")
+			{
+				createLine();
+			}
+			else
+			{
+				std::cout << "Invalid figure, please try again! " << std::endl;
+				continue;
+			}
+		}
+		else if (input == "erase")
+		{
+			String id;
+			std::cin >> id;
+			if (id == "all")
+			{
+				figures->deleteEntry();
+			}
+			else
+			{
+				int index = id.stoi();
+				figures->deleteEntry(index);
+			}
+		}
+		else if (input == "translate")
+		{
+			String id;
+			int horizontal, vertical;
+			std::cin >> id;
+			std::cout << " horizontal: ";
+			std::cin >> horizontal;
+			std::cout << " vertical: ";
+			std::cin >> vertical;
+			if (id == "all")
+			{
+				figures->translate(horizontal, vertical);
+			}
+			else
+			{
+				int index = id.stoi();
+				figures->translate(horizontal, vertical, index);
+			}
+		}
+		else if (input == "within")
+		{
+
+		}
+		else 
+			std::cout << "Invalid input, please try again" << std::endl;
 	}
-	//dont forget to close it before return 
-	//os.close();
 }
 
 void Menu::readFromSvg(std::istream &is)
@@ -300,6 +416,85 @@ void Menu::readLine(String & currentLine)
 	}
 	readFigureProperties(currentLine, currFill, currStroke, currStrokeWidth);
 	newLine->getInfo(currFill, currStroke, currStrokeWidth, currX1, currY1, currX2, currY2);
+	figures->addEntry(newLine);
+}
+
+void Menu::newFileWrite(char* fileName)
+{
+	std::ofstream os;
+	os.open(fileName);
+	os << "<?xml version=\"1.0\" standalone=\"no\"?>"
+		<< "\n <!DOCTYPE svg PUBLIC \" -//W3C//DTD SVG 1.1//EN\" "
+		<< " \n \"http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd\">"
+		<< " \n <svg width = \"40cm\" height = \"20cm\" viewBox = \"0 0 1200 700\""
+		<< " \n \t xmlns = \"http://www.w3.org/2000/svg\" version = \"1.1\">" << std::endl;
+	os << '\t' << "<desc> Created new file: " <<fileName << "</desc> \n \n";
+	figures->exportToFile(os);
+	os << "</svg>" << std::endl;
+	os.close();
+}
+
+void Menu::existingFileWrite(char *existingFile, char *newFile,int numberOfLinesAbove)
+{
+	std::ifstream is;
+	is.open(existingFile, std::fstream::in);
+	is.clear();
+	is.seekg(0, std::ios::beg);
+	String* firstLines = new String[numberOfLinesAbove];
+	for (int i = 0; i < numberOfLinesAbove; i++)
+	{
+		firstLines[i].getLine(is);
+	}
+	is.close();
+	std::ofstream os;
+	os.open(newFile, std::ofstream::out|std::ofstream::trunc);
+	for (int i = 0; i < numberOfLinesAbove; i++)
+	{
+		os << firstLines[i] << std::endl;
+	}
+	os << '\t' << "<desc>Saved to: " << newFile << "</desc> \n \n";
+	figures->exportToFile(os);
+	os << "</svg>" << std::endl;
+	os.close();
+}
+
+void Menu::createRectangle()
+{
+	double x = 0, y = 0, height = 0, width = 0;
+	std::cin >> x >> y >> width >> height;
+	String fill, stroke;
+	unsigned int strokeWidth=1;
+	std::cin >> fill >> stroke;
+	std::cin >> strokeWidth;
+	std::cout << x << y << height << width << fill << stroke << strokeWidth << std::endl;
+	Figures::Rectangle* newRect = fact.createRect();
+	newRect->getInfo(fill, stroke, strokeWidth, x, y, width, height);
+	figures->addEntry(newRect);
+}
+
+void Menu::createCircle()
+{
+	double cx = 0, cy = 0, r=0;
+	std::cin >> cx >> cy >> r;
+	String fill, stroke;
+	unsigned int strokeWidth = 1;
+	std::cin >> fill >> stroke;
+	std::cin >> strokeWidth;
+	Figures::Circle* newCirc = fact.createCirc();
+	newCirc->getInfo(fill, stroke, strokeWidth, cx, cy, r);
+	figures->addEntry(newCirc);
+}
+
+void Menu::createLine()
+{
+	double x1 = 0, y1 = 0, x2 = 0, y2 = 0;
+	std::cin >> x1 >> y1 >> x2 >> y2;
+	String fill, stroke;
+	unsigned int strokeWidth = 1;
+	std::cin >> fill >> stroke;
+	std::cin >> strokeWidth;
+	Figures::Line* newLine = fact.createLine();
+	newLine->getInfo(fill, stroke, strokeWidth, x1, y1, x2, y2);
 	figures->addEntry(newLine);
 }
 

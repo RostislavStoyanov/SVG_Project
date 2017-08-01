@@ -130,6 +130,8 @@ size_t String::find(const char * text)
 	{
         if (data[i] == text[0])
 		{
+			if (strlen(text) == 1)
+				return i;
 			for (size_t j = i+1; j < i+ strlen(text); j++)
 			{
                 if (data[j] == text[j - i])
@@ -251,6 +253,24 @@ double String::stod() const
 	return toRet;
 }
 
+unsigned int String::stou() const
+{
+	unsigned int toRet = 0;
+	char* tempArr = toChar();
+	sscanf(tempArr, "%u", &toRet);
+	delete[] tempArr;
+	return toRet;
+}
+
+int String::stoi() const
+{
+	int toRet = 0;
+	char* tempArr = toChar();
+	sscanf(tempArr, "%i", &toRet);
+	delete[] tempArr;
+	return toRet;
+}
+
 void String::clear()
 {
 	if (data = nullptr) return;
@@ -270,11 +290,17 @@ void String::clear()
 std::istream & operator>>(std::istream &is, String &str)
 {
 	char temp;
+	if (str.currentSize != 0)
+		str.clear();
 	while (is)
 	{
 		is.get(temp);
-		if (temp == '\n' || temp == ' '||temp=='\t')
-			break;
+		if (temp == '\n' || temp == ' ' || temp == '\t')
+		{
+			if (str.currentSize == 0) continue;
+			else 
+				break;
+		}
 		str.addChar(temp);
 	}
 	str.data[str.currentSize + 1] = 0;

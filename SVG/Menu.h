@@ -25,6 +25,16 @@ private:
 	void readCircle(String&); //creates circle from a String object read from a file
 
 	void readLine(String&); //creates line from a String object read from a file
+
+	void newFileWrite(char*); //writes to new file
+
+	void existingFileWrite(char*,char*,int); //writes to existing file
+
+	void createRectangle(); //creates Rectangle object using user input and adds it to collection
+
+	void createCircle(); //creates Circle object using user input and adds it to collection
+
+	void createLine(); //creates Line object using user input and adds it to collection
 public:
 	Menu(); //default constructor
 
